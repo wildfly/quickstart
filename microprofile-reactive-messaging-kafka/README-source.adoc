@@ -34,26 +34,10 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 // Use of {jbossHomeName}
 include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
 
-// Start the {productName} Standalone Server
-include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
-
 == Solution
 
-We recommend that you follow the instructions that
-<<creating-new-project, create the application step by step>>. However, you can
-also go right to the completed example which is available in this directory.
-
-CAUTION: Kafka must be running before attempting to deploy the Quickstart application. See <<running-the-apache-kafka-service,Running the Apache Kafka Service>> for how to do this in your local environment.
-
-
-// Build and Deploy the Quickstart
-include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
-
-// Server Distribution Testing
-include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
-
-// Undeploy the Quickstart
-include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+We recommend that you follow the instructions that create the application step by step. However, you can also
+skip this and <<running-the-microprofile-reactive-messaging-application, try the completed example which is available in this directory>>.
 
 [[creating-new-project]]
 == Creating the Maven Project
@@ -177,10 +161,10 @@ Now we need to add the dependencies which are needed by what is the focus of thi
         <artifactId>jakarta.ws.rs-api</artifactId>
         <scope>provided</scope>
     </dependency>
-    <!-- Import the resteasy-jaxrs API, we use provided scope as the API is included in WildFly -->
+    <!-- Import the resteasy-core-spi, we use provided scope as the SPI is included in WildFly -->
     <dependency>
         <groupId>org.jboss.resteasy</groupId>
-        <artifactId>resteasy-jaxrs</artifactId>
+        <artifactId>resteasy-core-spi</artifactId>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -856,46 +840,81 @@ Then `GET` requests for `/user` return the `BroadCastPublisher` to the user who 
 
 Now you should be able to compile the application and prepare it for deployment.
 
+[[running-the-microprofile-reactive-messaging-application]]
+== Building and Running the quickstart application
 
-
-=== Running the Application on a Standalone {productName} Server
-
-We need to first start Apache Kafka. Then we will run the {productName} server and deploy our application to the server.
-
+We need to first start Apache Kafka. Then we will run the {productName} server with our application deployed, using the standalone zip distribution, or a bootable JAR, or the cloud.
 
 [[running-the-apache-kafka-service]]
-== Running the Apache Kafka Service
+=== Running the Apache Kafka Service
 
-// As Kafka is strictly backwards compatible, I don't think we need to specify the version for users to download
-To run Apache Kafka locally you will need to https://kafka.apache.org/downloads[download] it first. Extract the zip to a location, and
-enter that directory in a terminal window. Then enter the following command to start Apache Zookeeper:
-[source, shell]
+This quickstart requires Apache Kafka running locally, and this can be done with a container service like Podman or Docker.
+
+Open a new terminal window and get the Apache Kafka image:
+[source,sh,options="nowrap"]
 ----
-$ ./bin/zookeeper-server-start.sh config/zookeeper.properties
-----
-Then open a new terminal window and go to the same directory. In this terminal, to start a Kafka instance, enter the command:
-[source, shell]
-----
-$ ./bin/kafka-server-start.sh config/server.properties
+podman pull apache/kafka:4.1.0
 ----
 
-NOTE: Zookeeper and Kafka must be left running, so use a new terminal for other commands outlined in this quickstart.
+Then start the container:
+[source,sh,options="nowrap"]
+----
+podman run -p 9092:9092 apache/kafka:4.1.0
+----
 
-NOTE: Kafka is not supported on Microsoft Windows, but Docker may be used to start a Kafka service on it.
+NOTE: To use Docker instead of Podman, please replace `podman` with `docker` in the commands above.
 
-== Build and Deploy the Initial Application
-Let's check that our application works!
+NOTE: For alternative ways to run Apache Kafka, please refer to its own https://kafka.apache.org/quickstart[quickstart].
 
-. Make sure xref:start_the_eap_standalone_server[the {productName} server is started] as described above.
-. {productName} ships with all the modules to run MicroProfile Reactive Messaging applications with Kafka, but the functionality is not enabled out of the box, so we need to enable it. Run: `$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli` to set everything up. The `enable-reactive-messaging.cli` file used can be found link:enable-reactive-messaging.cli[here].
-*NOTE*: This is only required if running against the downloaded server. If the `microprofile-reactive-messaging-kafka` layer is provisioned, as is done by the `openshift` and `bootable-jar` maven profiles, the Kafka functionality is there
-. Open new terminal and navigate to the root directory of your project.
-. Type the following command to build and deploy the project:
+=== Building and Running the quickstart application with {productName} standalone zip distribution
 
+// Start the {productName} Standalone Server
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+3]
+
+[[configure_the_server]]
+==== Configure the Server
+
+The application requires {productName} subsystems named `microprofile-reactive-streams-operators-smallrye` and `microprofile-reactive-messaging-smallrye`. For your convenience, this quickstart batches the configuration change commands into a `enable-reactive-messaging.cli` script provided in the root directory of this quickstart.
+
+. Before you begin, make sure you do the following:
+* xref:start_the_eap_standalone_server[Start the {productName} server with the standalone {standalone-server-type} profile] as described above.
+
+. Open a new terminal, navigate to the root directory of this quickstart, and run the following command, replacing `__{jbossHomeName}__` with the path to your server:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --file=enable-reactive-messaging.cli
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\jboss-cli.bat` script.
++
+
+You should see the following result when you run the script:
++
 [source,options="nowrap"]
 ----
-$ mvn clean package wildfly:deploy
+The batch executed successfully
+process-state: reload-required
 ----
+
+. You'll need to reload the configuration after that:
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/jboss-cli.sh --connect --commands=reload
+----
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+3]
+
+[NOTE]
+====
+You may see the following warning when the application is deployed, which is safe to ignore:
+[source]
+----
+SROAP04005: Could not find schema class in index: org.reactivestreams.Publisher
+----
+====
 
 Now we should see output in the server console. First, we see output for the ones in the determined order:
 [source, options="nowrap"]
@@ -942,18 +961,19 @@ TimedEntry{id=4, time=2021-08-06 14:24:59.182, message='Hello'}
 ----
 The timestamps of the entries in the browser match the ones we saw in the server logs.
 
-=== Interaction with User Initiated Code
+===== Interaction with User Initiated Code
+
 With the application still running, open two terminal windows. Enter the following `curl` command in both of them
 ```
-$curl -N http://localhost:8080/microprofile-reactive-messaging-kafka/user
+$ curl -N http://localhost:8080/microprofile-reactive-messaging-kafka/user
 ```
 The `-N` option keeps the connection open, so we receive data as it becomes available on the publisher.
 
 In a third terminal window enter the commands:
 ```
-$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/one
-$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/two
-$curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/three
+$ curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/one
+$ curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/two
+$ curl -X POST http://localhost:8080/microprofile-reactive-messaging-kafka/user/three
 ```
 In the first two terminal windows you should see these entries appear as they are posted:
 ```
@@ -964,8 +984,14 @@ data: two
 data: three
 ```
 
+// Server Distribution Testing
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+3]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+3]
+
 // Bootable JAR
-include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+1]
+include::../shared-doc/build-and-run-the-quickstart-with-bootable-jar.adoc[leveloffset=+2]
 
 [NOTE]
 ====
@@ -980,7 +1006,7 @@ bin/kafka-topics.sh --create --topic testing --bootstrap-server localhost:9092
 ====
 
 // OpenShift
-include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+2]
 
 To uninstall the AMQ Streams operator (global installation):
 ----
@@ -1001,7 +1027,7 @@ NOTE: Replace NAMESPACE above, with the actual name of the namespace used in the
 
 ifndef::ProductRelease,EAPXPRelease[]
 //Kubernetes
-include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
+include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+2]
 endif::[]
 
 == Conclusion
