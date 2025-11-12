@@ -1013,8 +1013,21 @@ To uninstall the AMQ Streams operator (global installation):
 $ oc delete -f ./charts/kafka-topic.yaml --wait --timeout=10m0s
 $ oc delete -f ./charts/kafka-on-openshift.yaml --wait --timeout=10m0s
 $ oc delete -f ./charts/amq-operator-on-openshift.yaml --wait --timeout=10m0s
-$ oc delete csv --all -n openshift-operators
 ----
+
+[NOTE]
+====
+In the case that the operator was added to the cluster only for trying this quickstart, and should now be deleted, use the following procedure:
+
+Obtain the operator CSV name.
+----
+$ oc get csv -n openshift-operators
+----
+Delete it from the cluster, replacing `CSV_NAME` with the obtained operator CSV name.
+----
+$ oc delete csv CSV_NAME -n openshift-operators
+----
+====
 
 To uninstall the AMQ Streams operator (name-scoped installation):
 ----
