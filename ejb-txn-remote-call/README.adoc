@@ -1083,8 +1083,20 @@ To uninstall the EAP operator (global installation):
 [source,sh,options="nowrap"]
 ----
 oc delete -f charts/eap-operator-sub.yaml --wait --timeout=10m0s
-oc delete csv --all -n openshift-operators
 ----
+
+[NOTE]
+====
+In the case that the operator was added to the cluster only for trying this quickstart, and should now be deleted, use the following procedure:
+Obtain the operator CSV name.
+----
+$ oc get csv -n openshift-operators
+----
+Delete it from the cluster, replacing `CSV_NAME` with the obtained operator CSV name.
+----
+$ oc delete csv CSV_NAME -n openshift-operators
+----
+====
 
 To uninstall the EAP operator (namespace-scoped installation):
 [source,sh,options="nowrap"]
