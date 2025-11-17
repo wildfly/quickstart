@@ -673,7 +673,7 @@ endif::helm-app-name[]
 :leveloffset: +1
 
 [[build-the-quickstart-for-openshift]]
-== Build the {productName} Source-to-Image (S2I) Quickstart to {cloud-platform} with Helm Charts
+= Build the {productName} Source-to-Image (S2I) Quickstart to {cloud-platform} with Helm Charts
 
 On OpenShift, the S2I build with Apache Maven uses an `openshift` Maven profile to provision a {productName} server, deploy and run the quickstart in OpenShift environment.
 
@@ -756,13 +756,14 @@ endif::[]
 // Getting Started with Helm
 :leveloffset: +1
 
-[[getting_started_with_helm]]
+[[getting_started_with_helm_openshift]]
 = Getting Started with {xpaasproduct-shortname} and Helm Charts
 
 This section contains the basic instructions to build and deploy this quickstart to {xpaasproduct-shortname} using Helm Charts.
 
-[[prerequisites_helm_openshift]]
-== Prerequisites
+:leveloffset: +1
+
+= Prerequisites
 
 ifndef::kubernetes[]
 * You must be logged in OpenShift and have an `oc` client to connect to OpenShift
@@ -793,15 +794,18 @@ NAME                    CHART VERSION   APP VERSION     DESCRIPTION
 ----
 endif::[]
 
+:leveloffset: 2
+
 :leveloffset: 1
 
 ifdef::helm-install-prerequisites-openshift[]
 // Additional steps needed before deploying in Helm
-[[deploy_helm_prerequisites]]
+[[deploy_helm_prerequisites_openshift]]
 include::{helm-install-prerequisites-openshift}[leveloffset=+1]
 endif::helm-install-prerequisites-openshift[]
 
 //Prepare Helm for Quickstart Deployment
+[[deploy_helm_openshift]]
 :leveloffset: +1
 
 ifndef::helmSetWildFlyArgumentPrefix[]
@@ -825,8 +829,7 @@ ifndef::kubernetes[]
 :helm-extra-arguments:
 :cloud-cli: oc
 endif::[]
-[[deploy_helm]]
-== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to {cloud-platform} with Helm Charts
+= Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to {cloud-platform} with Helm Charts
 
 ifndef::kubernetes[]
 Log in to your OpenShift instance using the `oc login` command.
@@ -995,10 +998,10 @@ The tests are using SSL to connect to the quickstart running on OpenShift. So yo
 :leveloffset: 1
 
 //Prepare Helm for Quickstart Deployment
+[[undeploy_helm_openshift]]
 :leveloffset: +1
 
-[[undeploy_helm]]
-== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from {cloud-platform} with Helm Charts
+= Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from {cloud-platform} with Helm Charts
 
 [source,options="nowrap",subs="+attributes"]
 ----
@@ -1034,7 +1037,7 @@ endif::helm-app-name[]
 :leveloffset: +1
 
 [[build-the-quickstart-for-kubernetes]]
-== Build the {productName} Quickstart to Kubernetes with Helm Charts
+= Build the {productName} Quickstart to Kubernetes with Helm Charts
 
 For Kubernetes, the build with Apache Maven uses an `openshift` Maven profile to provision a {productName} server, suitable for running on Kubernetes.
 
@@ -1117,7 +1120,7 @@ endif::[]
 // Getting Started with Helm
 :leveloffset: +1
 
-[[getting_started_with_helm]]
+[[getting_started_with_helm_kubernetes]]
 = Getting Started with Kubernetes and Helm Charts
 
 This section contains the basic instructions to build and deploy this quickstart to Kubernetes using Helm Charts.
@@ -1153,8 +1156,9 @@ kubectl port-forward --namespace kube-system service/registry 5000:80
 docker run --rm -it --network=host alpine ash -c "apk add socat && socat TCP-LISTEN:5000,reuseaddr,fork TCP:host.docker.internal:5000"
 ----
 
-[[prerequisites_helm_openshift]]
-== Prerequisites
+:leveloffset: +1
+
+= Prerequisites
 
 ifndef::kubernetes[]
 * You must be logged in OpenShift and have an `oc` client to connect to OpenShift
@@ -1185,15 +1189,18 @@ NAME                    CHART VERSION   APP VERSION     DESCRIPTION
 ----
 endif::[]
 
+:leveloffset: 2
+
 :leveloffset: 1
 
 ifdef::helm-install-prerequisites-kubernetes[]
 // Additional steps needed before deploying in Helm
-[[deploy_helm_prerequisites]]
+[[deploy_helm_prerequisites_kubernetes]]
 include::{helm-install-prerequisites-kubernetes}[leveloffset=+1]
 endif::helm-install-prerequisites-kubernetes[]
 
 //Prepare Helm for Quickstart Deployment
+[[deploy_helm_kubernetes]]
 :leveloffset: +1
 
 ifndef::helmSetWildFlyArgumentPrefix[]
@@ -1217,8 +1224,7 @@ ifndef::kubernetes[]
 :helm-extra-arguments:
 :cloud-cli: oc
 endif::[]
-[[deploy_helm]]
-== Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to {cloud-platform} with Helm Charts
+= Deploy the {ProductShortName} Source-to-Image (S2I) Quickstart to {cloud-platform} with Helm Charts
 
 ifndef::kubernetes[]
 Log in to your OpenShift instance using the `oc login` command.
@@ -1375,10 +1381,10 @@ $ mvn verify -Pintegration-testing -Dserver.host=http://localhost:8080 {extra-te
 :leveloffset: 1
 
 //Prepare Helm for Quickstart Deployment
+[[undeploy_helm_kubernetes]]
 :leveloffset: +1
 
-[[undeploy_helm]]
-== Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from {cloud-platform} with Helm Charts
+= Undeploy the {ProductShortName} Source-to-Image (S2I) Quickstart from {cloud-platform} with Helm Charts
 
 [source,options="nowrap",subs="+attributes"]
 ----
