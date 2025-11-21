@@ -78,7 +78,7 @@ jobs:
         jdk: ${{ fromJSON(needs.Matrix-Setup.outputs.jdk) }}
         os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           path: quickstarts
       - name: Set up JDK ${{ matrix.jdk }}
@@ -175,7 +175,7 @@ jobs:
         jdk: ${{ fromJSON(needs.Matrix-Setup.outputs.jdk) }}
         os: ${{ fromJSON(needs.Matrix-Setup.outputs.os) }}
     steps:
-      - uses: actions/checkout@v5
+      - uses: actions/checkout@v6
         with:
           path: quickstarts
       - uses: actions/download-artifact@v6
