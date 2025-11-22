@@ -1,0 +1,49 @@
+# Batch script to restore the configuration that was modified to run the quickstart
+
+# Remove the remote outbound connection
+if (outcome == success) of /subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:read-resource
+  /subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:remove
+end-if
+
+# Remove the outbound socket binding
+if (outcome == success) of /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:read-resource
+  /socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:remove
+end-if
+
+# Remove the authentication context
+if (outcome == success) of /subsystem=elytron/authentication-context=ejb-outbound-context:read-resource
+  /subsystem=elytron/authentication-context=ejb-outbound-context:remove
+end-if
+
+# Remove authentication configuration
+if (outcome == success) of /subsystem=elytron/authentication-configuration=ejb-outbound-configuration:read-resource
+  /subsystem=elytron/authentication-configuration=ejb-outbound-configuration:remove
+end-if
+
+batch
+
+# Remove ejb3 application-security-domain
+/subsystem=ejb3/application-security-domain=jwt-app-domain:remove
+
+# Sets sasl-authentication-factory of http-remoting-connector back to application-sasl-authentication
+/subsystem=remoting/http-connector=http-remoting-connector:write-attribute(name=sasl-authentication-factory,value=application-sasl-authentication)
+
+# Remove jwt-sasl-authentication
+/subsystem=elytron/sasl-authentication-factory=jwt-sasl-authentication:remove
+
+# Remove the security domain
+/subsystem=elytron/security-domain=jwt-domain:remove
+
+# Remove the security realm
+/subsystem=elytron/token-realm=jwt-realm:remove
+
+# Remove the role-decoder module
+/subsystem=elytron/simple-role-decoder=roles-attribute:remove
+
+# Run the batch commands
+run-batch
+
+# Reload the server configuration
+reload
+
+
