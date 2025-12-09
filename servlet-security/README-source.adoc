@@ -99,29 +99,15 @@ The batch executed successfully
 
 After stopping the server, open the `__{jbossHomeName}__/standalone/configuration/standalone.xml` file and review the changes.
 
-. The following datasource was added to the `datasources` subsystem.
-+
-[source,xml,options="nowrap"]
-----
-<datasource jndi-name="java:jboss/datasources/ServletSecurityDS" pool-name="ServletSecurityDS">
-    <connection-url>jdbc:h2:mem:servlet-security;DB_CLOSE_ON_EXIT=FALSE</connection-url>
-    <driver>h2</driver>
-    <security>
-        <user-name>sa</user-name>
-        <password>sa</password>
-    </security>
-</datasource>
-----
-
 . The following `security-realm` was added to the `elytron` subsystem.
 +
 [source,xml,options="nowrap"]
 ----
 <jdbc-realm name="servlet-security-jdbc-realm">
-    <principal-query sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?" data-source="ServletSecurityDS">
+    <principal-query sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?" data-source="ExampleDS">
         <clear-password-mapper password-index="1"/>
     </principal-query>
-    <principal-query sql="SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?" data-source="ServletSecurityDS">
+    <principal-query sql="SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?" data-source="ExampleDS">
         <attribute-mapping>
             <attribute to="roles" index="1"/>
         </attribute-mapping>

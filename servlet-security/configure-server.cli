@@ -1,12 +1,8 @@
 # Batch script to configure the security domain and define the database query used to authenticate users
 batch
 
-
-# Start by creating the JDBC datasource
-/subsystem=datasources/data-source=ServletSecurityDS:add(connection-url="jdbc:h2:mem:servlet-security;DB_CLOSE_ON_EXIT=FALSE", jndi-name="java:jboss/datasources/ServletSecurityDS", driver-name=h2, user-name="sa", password="sa")
-
-# Add the JDBC security realm creation
-/subsystem=elytron/jdbc-realm=servlet-security-jdbc-realm:add(principal-query=[{sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?", data-source="ServletSecurityDS", clear-password-mapper={password-index=1}},{sql="SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?", data-source="ServletSecurityDS", attribute-mapping=[{index=1, to=Roles}]}])
+# Create a JDBC security realm
+/subsystem=elytron/jdbc-realm=servlet-security-jdbc-realm:add(principal-query=[{sql="SELECT PASSWORD FROM USERS WHERE USERNAME = ?", data-source="ExampleDS", clear-password-mapper={password-index=1}},{sql="SELECT R.NAME, 'Roles' FROM USERS_ROLES UR INNER JOIN ROLES R ON R.ID = UR.ROLE_ID INNER JOIN USERS U ON U.ID = UR.USER_ID WHERE U.USERNAME = ?", data-source="ExampleDS", attribute-mapping=[{index=1, to=Roles}]}])
 
 # Configure the servlet-security-quickstart security domain
 /subsystem=elytron/security-domain=servlet-security-quickstart-sd:add(default-realm=servlet-security-jdbc-realm, realms=[{realm=servlet-security-jdbc-realm}], permission-mapper=default-permission-mapper)
