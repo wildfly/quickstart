@@ -20,7 +20,7 @@ jobs:
     steps:
     # - name: Output event
     #  run: echo "${{ toJSON(github.event) }}"
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: Get all directories
       id: get-top-level-directories
       run: |
@@ -201,7 +201,7 @@ jobs:
       run: | 
         helm repo add wildfly https://docs.wildfly.org/wildfly-charts/
         helm repo update wildfly
-    - uses: actions/checkout@v5
+    - uses: actions/checkout@v6
     - name: Set up Go
       uses: actions/setup-go@v6
       with:
