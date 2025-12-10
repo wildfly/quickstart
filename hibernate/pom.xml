@@ -173,21 +173,10 @@
                         <configuration>
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
-                                <!-- datasource added by CLI script -->
-                                <failsOnError>false</failsOnError>
                                 <add-ons>
                                     <add-on>h2-database</add-on>
                                 </add-ons>
                             </discover-provisioning-info>
-                            <packaging-scripts>
-                                <packaging-script>
-                                    <scripts>
-                                        <script>${basedir}/configure-server.cli</script>
-                                    </scripts>
-                                    <!-- Expressions resolved during server execution -->
-                                    <resolve-expressions>false</resolve-expressions>
-                                </packaging-script>
-                            </packaging-scripts>
                         </configuration>
                         <executions>
                             <execution>
@@ -211,21 +200,10 @@
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                                 <context>cloud</context>
-                                <!-- datasource added by CLI script -->
-                                <failsOnError>false</failsOnError>
                                 <add-ons>
                                     <add-on>h2-database</add-on>
                                 </add-ons>
                             </discover-provisioning-info>
-                            <packaging-scripts>
-                                <packaging-script>
-                                    <scripts>
-                                        <script>${basedir}/configure-server.cli</script>
-                                    </scripts>
-                                    <!-- Expressions resolved during server execution -->
-                                    <resolve-expressions>false</resolve-expressions>
-                                </packaging-script>
-                            </packaging-scripts>
                         </configuration>
                         <executions>
                             <execution>
