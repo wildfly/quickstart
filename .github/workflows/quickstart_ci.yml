@@ -151,7 +151,7 @@ jobs:
               bash $FILE
           fi
         shell: bash
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
@@ -254,7 +254,7 @@ jobs:
               bash $FILE
           fi
         shell: bash
-      - uses: actions/upload-artifact@v5
+      - uses: actions/upload-artifact@v6
         if: failure()
         with:
           name: surefire-reports-JDK${{ matrix.jdk }}-${{ matrix.os }}
