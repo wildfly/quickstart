@@ -14,6 +14,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
+import java.util.Arrays;
 
 import org.junit.Test;
 
@@ -47,9 +48,8 @@ public class OpenAPIContextIT {
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals("/openapi context is not available", 200, response.statusCode());
 
-        // First line are just dashes, so lets check the second line with OpenAPI version key for the prefix
         String[] bodyLines = response.body().split("\n");
-        assertTrue(bodyLines[1].startsWith("openapi:"));
+        assertTrue("Document does not contain \"openapi:\" field", Arrays.stream(bodyLines).anyMatch(line -> line.startsWith("openapi:")));
     }
 
 }
