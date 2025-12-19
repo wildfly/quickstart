@@ -34,8 +34,8 @@ ifdef::EAPXPRelease[]
 // JBoss EAP XP release
 :productName: JBoss EAP XP
 :productNameFull: Red Hat JBoss Enterprise Application Platform expansion pack
-:productVersion: 5.0
-:WildFlyQuickStartRepoTag: XP_5.0.0.GA
+:productVersion: 6.0
+:WildFlyQuickStartRepoTag: XP_6.0.0.GA
 endif::[]
 
 ifdef::ProductRelease,EAPXPRelease[]
@@ -61,7 +61,7 @@ ifndef::ProductRelease,EAPXPRelease[]
 :productVersion: 39
 :githubRepoUrl: https://github.com/wildfly/quickstart/
 :githubRepoCodeUrl: https://github.com/wildfly/quickstart.git
-:WildFlyQuickStartRepoTag: 38.0.0.Final
+:WildFlyQuickStartRepoTag: 39.0.0.Beta1
 :DocInfoProductName: Red Hat JBoss Enterprise Application Platform
 :DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
 :DocInfoPreviousProductName: jboss-enterprise-application-platform
@@ -424,77 +424,84 @@ Run following command in your terminal:
 $ curl http://localhost:8080/openapi
 ----
 
-It should return a YAML document conforming to the http://spec.openapis.org/oas/v3.0.3[OpenAPI specification]:
+It should return a YAML document conforming to the https://spec.openapis.org/oas/v3.1.0[OpenAPI specification]:
 
 [source, yaml]
 ----
-openapi: 3.0.1
-info:
-  title: Store inventory
-  description: Application for tracking store inventory
-  version: "1.0"
-servers:
-- url: /microprofile-openapi
-paths:
-  /:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            text/plain:
-              schema:
-                type: string
-  /fruit:
-    get:
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Fruit'
-    post:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Fruit'
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Fruit'
-    delete:
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/Fruit'
-      responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: '#/components/schemas/Fruit'
 components:
   schemas:
     Fruit:
       type: object
       properties:
-        description:
-          type: string
         name:
           type: string
+        description:
+          type: string
+externalDocs: {}
+info:
+  contact: {}
+  description: Application for tracking store inventory
+  license: {}
+  title: Store inventory
+  version: "1.0"
+openapi: 3.1.0
+paths:
+  /microprofile-openapi/:
+    get:
+      responses:
+        "200":
+          content:
+            text/plain:
+              schema:
+                type: string
+          description: OK
+  /microprofile-openapi/fruit:
+    delete:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Fruit"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Fruit"
+                type: array
+                uniqueItems: true
+          description: OK
+    get:
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Fruit"
+                type: array
+                uniqueItems: true
+          description: OK
+    post:
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Fruit"
+        required: true
+      responses:
+        "200":
+          content:
+            application/json:
+              schema:
+                items:
+                  $ref: "#/components/schemas/Fruit"
+                type: array
+                uniqueItems: true
+          description: OK
+servers: []
 ----
 
 === Enhance OpenAPI documentation with annotations
