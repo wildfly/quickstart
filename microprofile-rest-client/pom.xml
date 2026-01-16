@@ -50,6 +50,7 @@
         <version.bom.expansion>${version.server}</version.bom.expansion>
         <version.plugin.wildfly>5.1.5.Final</version.plugin.wildfly>
         <!-- the versions for other Dependencies and Plugins -->
+        <version.io.undertow>2.3.22.Final</version.io.undertow>
         <version.org.jboss.resteasy>6.2.15.Final</version.org.jboss.resteasy>
         <version.org.junit>5.10.5</version.org.junit>
         <!-- Configuration settings -->
@@ -151,6 +152,23 @@
             <version>${version.org.jboss.resteasy}</version>
             <scope>test</scope>
         </dependency>
+        <!-- These Undertow dependencies are required for the SeBootstrap implementation for RESTEasy. The undertow-core
+             dependency is part of the org.wildfly.bom:wildfly-ee BOM. However, we need both the undertow-core and
+             undertow-servlet dependency versions to match.
+         -->
+        <dependency>
+            <groupId>io.undertow</groupId>
+            <artifactId>undertow-core</artifactId>
+            <version>${version.io.undertow}</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>io.undertow</groupId>
+            <artifactId>undertow-servlet</artifactId>
+            <version>${version.io.undertow}</version>
+            <scope>test</scope>
+        </dependency>
+        <!-- End org.jboss.resteasy:resteasy-undertow-cdi requirements -->
         <dependency>
             <groupId>io.smallrye</groupId>
             <artifactId>jandex</artifactId>
