@@ -534,6 +534,7 @@ $ mvn wildfly:undeploy
 :leveloffset!:
 
 // Build and run sections for other environments/builds
+:glowWarnsAboutJNDILookups:
 :leveloffset: +1
 
 [[build_and_run_the_quickstart_with_provisioned_server]]
@@ -633,6 +634,17 @@ ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
     </build>
 </profile>
 ----
+endif::[]
+
+ifdef::glowWarnsAboutJNDILookups[]
+[NOTE]
+====
+When building, you may notice the following warning:
+
+`[WARNING] * jakarta.naming.Context or InitialContext lookup.`
+
+This is expected, the quickstart uses JNDI lookups, which WildFly Glow is not able to verify. The warning can be safely ignored.
+====
 endif::[]
 
 [NOTE]

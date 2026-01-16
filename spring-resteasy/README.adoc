@@ -458,9 +458,18 @@ You will see the following warnings in the server log. You can ignore these warn
 
 [source,options="nowrap"]
 ----
+WARN  [org.jboss.as.dependency.private] (MSC service thread 1-6) WFLYSRV0018: Deployment "deployment.spring-resteasy.war" is using a private module ("org.jboss.vfs") which may be changed or removed in future versions without notice.
+----
+
+This warning occurs because the RESTEasy Spring integration internally uses the `org.jboss.vfs` (Virtual File System) module for classpath scanning in the {productName} environment. This is an internal implementation detail of the integration layer and does not affect application functionality.
+
+[source,options="nowrap"]
+----
 WARN  [org.jboss.as.ee] (MSC service thread 1-5) WFLYEE0007: Not installing optional component org.springframework.http.server.ServletServerHttpAsyncRequestControl due to an exception (enable DEBUG log level to see the cause)
 WARN  [org.jboss.as.ee] (MSC service thread 1-5) WFLYEE0007: Not installing optional component org.springframework.web.context.request.async.StandardServletAsyncWebRequest due to an exception (enable DEBUG log level to see the cause)
 ----
+
+These warnings occur because Spring Web includes optional async/reactive components that implement the Servlet `AsyncListener` interface. When CDI is excluded (as required for Spring applications), {productName}'s EE subsystem attempts to register these components but fails due to missing dependencies. This does not affect application functionality since these are optional features not used by this quickstart.
 
 This warning can be ignored too:
 
@@ -613,6 +622,17 @@ ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
     </build>
 </profile>
 ----
+endif::[]
+
+ifdef::glowWarnsAboutJNDILookups[]
+[NOTE]
+====
+When building, you may notice the following warning:
+
+`[WARNING] * jakarta.naming.Context or InitialContext lookup.`
+
+This is expected, the quickstart uses JNDI lookups, which WildFly Glow is not able to verify. The warning can be safely ignored.
+====
 endif::[]
 
 [NOTE]

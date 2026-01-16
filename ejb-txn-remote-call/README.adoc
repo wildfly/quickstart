@@ -763,7 +763,16 @@ mvn package \
 
 The provisioned {productName} servers, with the quickstart deployed, can then be found in `${PATH_TO_QUICKSTART_DIR}/client/target/server`, `${PATH_TO_QUICKSTART_DIR}/server/target/server2`, and `${PATH_TO_QUICKSTART_DIR}/server/target/server3` directories, and their usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
 
-The server provisioning functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the pom.xml files of the quickstart.
+The server provisioning functionality is provided by the {productName} Maven Plugin, and you may find its configuration in the pom.xml files of the quickstart.
+
+[NOTE]
+====
+When building, you may notice the following warning:
+
+`[WARNING] * jakarta.naming.Context or InitialContext lookup.`
+
+This is expected, the quickstart uses JNDI lookups, which WildFly Glow is not able to verify. The warning can be safely ignored.
+====
 
 The quickstart user should be added after provisioning the servers, and before running them:
 [source,subs="+quotes,attributes+",options="nowrap"]
