@@ -66,6 +66,8 @@ function installPrerequisites()
   echo "Looping for 15 minutes until the Kafka cluster is ready"
   while [ $now -lt $end ]; do
     sleep 15
+    now=$(date +%s)
+
     echo "Checking if pods are ready"
 
     # Check the entity operator exists. It will have a name like my-cluster-entity-operator-<pod suffix>
