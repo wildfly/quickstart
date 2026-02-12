@@ -186,7 +186,7 @@ jobs:
       with:
         driver: docker
         container runtime: containerd
-        minikube version: 'v1.33.0'
+        minikube version: 'v1.38.0'
         kubernetes version: 'v1.30.0'
         github token: ${{ secrets.GITHUB_TOKEN }}
         start args: "--memory='4gb' --cpus='2'"
@@ -222,5 +222,13 @@ jobs:
             echo "Tests for ${qs_dir} FAILED!"
             exit 1
           fi
-                        
-    
+    - name: Log minikube
+      if: failure()
+      run: |
+        minikube logs --file=logs.txt
+    - uses: actions/upload-artifact@v6
+      if: failure()
+      with:
+        name: ${{ matrix.quickstart }} minikube logs
+        path: 'logs.txt'
+
