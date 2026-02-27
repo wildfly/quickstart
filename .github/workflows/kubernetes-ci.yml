@@ -226,7 +226,7 @@ jobs:
       if: failure()
       run: |
         minikube logs --file=logs.txt
-    - uses: actions/upload-artifact@v6
+    - uses: actions/upload-artifact@v7
       if: failure()
       with:
         name: ${{ matrix.quickstart }} minikube logs
