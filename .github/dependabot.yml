@@ -17,6 +17,8 @@ updates:
       # Only allow for patch release upgrades
       - dependency-name: '*'
         update-types: ['version-update:semver-major', 'version-update:semver-minor']
+      # ignore WildFly BOMs, cause wrong property is updated
+      - dependency-name: 'org.wildfly.bom:*'
     open-pull-requests-limit: 10
     registries:
       - maven-central
