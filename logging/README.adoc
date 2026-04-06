@@ -895,6 +895,32 @@ This is expected, the quickstart uses JNDI lookups, which WildFly Glow is not ab
 ====
 endif::[]
 
+ifdef::glowWarnsAboutUnboundDatasource[]
+[NOTE]
+====
+When building, you may notice the following warning:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+[WARNING] * unbound datasources error: {datasourceJndiName}
+  The following suggestions should help you fix the reported warnings:
+  - configure a datasource using CLI script
+  Enabling one of the following add-ons may also fix this issue:
+  - db2
+  - mariadb
+  - mssqlserver
+  - mysql
+  - oracle
+  - postgresql
+
+[INFO] Some suggestions have been found. You could enable suggestions with the <suggest>true</suggest> option.
+[WARNING] Some errors have been identified, check logs.
+----
+
+This is expected, the quickstart uses a CLI script to bind the datasource. The warning can be safely ignored.
+====
+endif::[]
+
 [NOTE]
 ====
 When built, the provisioned {productName} server can be found in the `{deploymentTargetDir}/server` directory, and its usage is similar to a standard server distribution, with the simplification that there is never the need to specify the server configuration to be started.
