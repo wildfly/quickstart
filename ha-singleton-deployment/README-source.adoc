@@ -19,7 +19,9 @@ The `ha-singleton-deployment` quickstart demonstrates the deployment of a servic
 In this example, the service is a timer that is initialized by a `@Startup @Singleton` Jakarta Enterprise Beans bean.
 The example is built and packaged as a single web archive.
 
+ifdef::ProductRelease[]
 For more information about singleton deployments, see _HA Singleton Deployments_ in the {LinkDevelopmentGuide}[__{DevelopmentBookName}__] for {DocInfoProductName} located on the Red Hat Customer Portal.
+endif::[]
 
 // Link to the quickstart source
 include::../shared-doc/view-the-source.adoc[leveloffset=+1]
@@ -194,11 +196,11 @@ INFO  [org.infinispan.remoting.transport.jgroups.JGroupsTransport] (MSC service 
 == Making Existing Deployments Singleton
 
 In this quickstart, the deployment is made singleton by a configuration file bundled in the archive.
-Inspect the content in `src/main/resources/META-INF/singleton-deployment.xml`.
+Inspect the content in `src/main/webapp/META-INF/singleton-deployment.xml`.
 Any existing deployment can be made singleton by using the _deployment overlays_ mechanism.
 To demonstrate how to use deployment overlays, follow these steps:
 
-. Move the `src/main/resources/META-INF/singleton-deployment.xml` file into root directory of this quickstart.
+. Move the `src/main/webapp/META-INF/singleton-deployment.xml` file into root directory of this quickstart.
 . Rebuild the project. Ensure that the servers are started, and redeploy the application, which will no longer be configured by singleton deployment by the archive:
 +
 [source,shell,options="nowrap"]
