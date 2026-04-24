@@ -136,6 +136,14 @@
                     <groupId>org.wildfly.plugins</groupId>
                     <artifactId>wildfly-maven-plugin</artifactId>
                     <version>${version.plugin.wildfly}</version>
+                    <configuration>
+                        <env>
+                            <POSTGRESQL_DATABASE>test</POSTGRESQL_DATABASE>
+                            <POSTGRESQL_JNDI>java:jboss/datasources/ejbJtaDs</POSTGRESQL_JNDI>
+                            <POSTGRESQL_PASSWORD>${postgresqlUsername}</POSTGRESQL_PASSWORD>
+                            <POSTGRESQL_USER>${postgresqlPassword}</POSTGRESQL_USER>
+                        </env>
+                    </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
@@ -161,15 +169,6 @@
                     <plugin>
                         <groupId>org.wildfly.plugins</groupId>
                         <artifactId>wildfly-maven-plugin</artifactId>
-                        <configuration>
-                            <!-- Env used when calling wildfly:start goal -->
-                            <env>
-                                <POSTGRESQL_DATABASE>test</POSTGRESQL_DATABASE>
-                                <POSTGRESQL_JNDI>java:jboss/datasources/ejbJtaDs</POSTGRESQL_JNDI>
-                                <POSTGRESQL_PASSWORD>${postgresqlUsername}</POSTGRESQL_PASSWORD>
-                                <POSTGRESQL_USER>${postgresqlPassword}</POSTGRESQL_USER>
-                            </env>
-                        </configuration>
                         <executions>
                             <execution>
                                 <id>package</id>
