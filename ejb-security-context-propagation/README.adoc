@@ -1008,7 +1008,10 @@ endif::deploymentTargetDir[]
 ifndef::extraStartParams[:extraStartParams: ]
 ifndef::extraProvisioningTestParams[:extraProvisioningTestParams: ]
 
-Instead of using a standard {productName} server distribution, you can alternatively provision a {productName} server to deploy and run the quickstart. The functionality is provided by the WildFly Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
+ifndef::ProductRelease[:mavenPluginName: WildFly]
+ifdef::ProductRelease[:mavenPluginName: EAP]
+
+Instead of using a standard {productName} server distribution, you can alternatively provision a {productName} server to deploy and run the quickstart. The functionality is provided by the {mavenPluginName} Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 
 ifndef::ProductRelease[]
 [source,xml,subs="attributes+"]
@@ -1045,8 +1048,6 @@ ifndef::ProductRelease[]
 endif::[]
 
 ifdef::ProductRelease[]
-ifndef::EAPXPRelease[:featurePackLocation: org.jboss.eap:wildfly-ee-galleon-pack]
-ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
 [source,xml,subs="attributes+"]
 ----
 <profile>
@@ -1061,13 +1062,6 @@ ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
                 <artifactId>eap-maven-plugin</artifactId>
                 <configuration>
                     ...
-                    <feature-packs>
-                        <feature-pack>
-                            <location>{featurePackLocation}</location>
-                        </feature-pack>
-                        ...
-                    </feature-packs>
-                    <layers>...</layers>
                 </configuration>
                 <executions>
                     <execution>
@@ -1082,6 +1076,10 @@ ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
     </build>
 </profile>
 ----
+[NOTE]
+====
+The Glow functionality of the EAP Maven Plugin is Tech Preview.
+====
 endif::[]
 
 ifdef::glowWarnsAboutJNDILookups[]

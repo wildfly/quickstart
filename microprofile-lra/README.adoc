@@ -784,7 +784,6 @@ When you have completed testing the quickstart, you can restore the original ser
 
 :leveloffset!:
 
-//Bootable JAR
 :leveloffset: +1
 
 [[build_and_run_the_quickstart_with_bootable_jar]]
@@ -908,8 +907,6 @@ ifndef::ProductRelease[]
 endif::[]
 
 ifdef::ProductRelease[]
-ifndef::EAPXPRelease[:featurePackLocation: org.jboss.eap:wildfly-ee-galleon-pack]
-ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
 [source,xml,subs="attributes+"]
 ----
 <profile>
@@ -924,13 +921,6 @@ ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
                 <artifactId>eap-maven-plugin</artifactId>
                 <configuration>
                     ...
-                    <feature-packs>
-                        <feature-pack>
-                            <location>{featurePackLocation}</location>
-                        </feature-pack>
-                        ...
-                    </feature-packs>
-                    <layers>...</layers>
                     <bootable-jar>true</bootable-jar>
                 </configuration>
                 <executions>
@@ -946,6 +936,11 @@ ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
     </build>
 </profile>
 ----
+[NOTE]
+====
+The Glow functionality of the EAP Maven Plugin is Tech Preview.
+====
+
 endif::[]
 
 [NOTE]
@@ -994,8 +989,6 @@ $ mvn wildfly:shutdown
 
 
 :leveloffset!:
-
-// OpenShift
 :leveloffset: +1
 
 :cloud-platform: OpenShift
@@ -1049,8 +1042,6 @@ You may note that unlike the `provisioned-server` profile it uses the cloud cont
 endif::[]
 
 ifdef::ProductRelease[]
-ifndef::EAPXPRelease[:featurePackLocation: org.jboss.eap:wildfly-ee-galleon-pack]
-ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
 The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 [source,xml,subs="attributes+"]
 ----
@@ -1062,16 +1053,11 @@ The server provisioning functionality is provided by the EAP Maven Plugin, and y
                 <groupId>org.jboss.eap.plugins</groupId>
                 <artifactId>eap-maven-plugin</artifactId>
                 <configuration>
+                    <discover-provisioning-info>
+                        ...
+                        <context>cloud</context>
+                    </discover-provisioning-info>
                     ...
-                    <feature-packs>
-                        <feature-pack>
-                            <location>{featurePackLocation}</location>
-                        </feature-pack>
-                        <feature-pack>
-                            <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
-                        </feature-pack>
-                    </feature-packs>
-                    <layers>...</layers>
                 </configuration>
                 <executions>
                     <execution>
@@ -1087,6 +1073,10 @@ The server provisioning functionality is provided by the EAP Maven Plugin, and y
 </profile>
 ----
 You may note that it uses the cloud feature pack which enables a configuration tuned for the {cloud-platform} environment.
+[NOTE]
+====
+The Glow functionality of the EAP Maven Plugin is Tech Preview.
+====
 endif::[]
 
 :leveloffset: 1
@@ -1353,8 +1343,6 @@ endif::[]
 :!openshift:
 
 :leveloffset!:
-ifndef::ProductRelease,EAPXPRelease[]
-// Kubernetes
 :leveloffset: +1
 
 :cloud-platform: Kubernetes
@@ -1365,6 +1353,14 @@ endif::helm-app-name[]
 
 [[build_and_run_the_quickstart_on_kubernetes]]
 = Building and running the quickstart application with Kubernetes
+
+ifdef::ProductRelease[]
+[NOTE]
+====
+Building and running this {productName} quickstart with Kubernetes is not supported.
+====
+endif::[]
+
 // The openshift profile
 :leveloffset: +1
 
@@ -1408,8 +1404,6 @@ You may note that unlike the `provisioned-server` profile it uses the cloud cont
 endif::[]
 
 ifdef::ProductRelease[]
-ifndef::EAPXPRelease[:featurePackLocation: org.jboss.eap:wildfly-ee-galleon-pack]
-ifdef::EAPXPRelease[:featurePackLocation: org.jboss.eap.xp:wildfly-galleon-pack]
 The server provisioning functionality is provided by the EAP Maven Plugin, and you may find its configuration in the quickstart `pom.xml`:
 [source,xml,subs="attributes+"]
 ----
@@ -1421,16 +1415,11 @@ The server provisioning functionality is provided by the EAP Maven Plugin, and y
                 <groupId>org.jboss.eap.plugins</groupId>
                 <artifactId>eap-maven-plugin</artifactId>
                 <configuration>
+                    <discover-provisioning-info>
+                        ...
+                        <context>cloud</context>
+                    </discover-provisioning-info>
                     ...
-                    <feature-packs>
-                        <feature-pack>
-                            <location>{featurePackLocation}</location>
-                        </feature-pack>
-                        <feature-pack>
-                            <location>org.jboss.eap.cloud:eap-cloud-galleon-pack</location>
-                        </feature-pack>
-                    </feature-packs>
-                    <layers>...</layers>
                 </configuration>
                 <executions>
                     <execution>
@@ -1446,6 +1435,10 @@ The server provisioning functionality is provided by the EAP Maven Plugin, and y
 </profile>
 ----
 You may note that it uses the cloud feature pack which enables a configuration tuned for the {cloud-platform} environment.
+[NOTE]
+====
+The Glow functionality of the EAP Maven Plugin is Tech Preview.
+====
 endif::[]
 
 :leveloffset: 1
@@ -1731,7 +1724,6 @@ endif::[]
 :!kubernetes:
 
 :leveloffset!:
-endif::[]
 
 [[creating-new-project]]
 == Creating the Maven Project
