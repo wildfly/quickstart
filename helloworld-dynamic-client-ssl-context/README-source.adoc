@@ -1,0 +1,99 @@
+include::../shared-doc/attributes.adoc[]
+
+= helloworld-dynamic-client-ssl-context: Dynamic client SSL Context between Server and Client
+:author: Richard Záň
+:level: Intermidiate
+:technologies: Dynamic TLS, Security, Undertow
+
+[abstract]
+The helloworld-dynamic-client-ssl-context quickstart shows the option to select different SSL/TLS configurations dynamically based on the host and port of the outbound connection.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+Elytron client supports dynamic client SSL context. It can be configured everywhere in the subsystems similarly as client-ssl-context attribute.
+
+The `helloworld-dynamic-client-ssl-context` quickstart demonstrates enabled dynamic SSL context for specified URLs and their ports. The only function they represent is to be called via provided REST client and pass as successful call through the SSL/TLS configuration.
+
+This example consists of the following two URLs, each with enabled dynamic SSL context:
+
+[cols="100%",options="headers"]
+|===
+|URL paths with their ports
+
+|`https://localhost:9443/helloworld-dynamic-client-ssl-context/`
+
+|`https://localhost:10443/helloworld-dynamic-client-ssl-context/`
+
+|===
+
+The server configuration is done using CLI batch scripts located in the root of the quickstart folder.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+// Use of {jbossHomeName}
+include::../shared-doc/use-of-jboss-home-name.adoc[leveloffset=+1]
+
+[[start_with_a_clean_server_install]]
+== Start with a Clean Server Install
+
+It is important to start with a clean version of {productName} before testing this quickstart. Make sure you unzip or install a fresh {productName} instance.
+
+// Back Up the {productName} Managed Domain Configuration
+include::../shared-doc/back-up-server-standalone-configuration.adoc[leveloffset=+1]
+// Start the {productName} Managed Domain
+include::../shared-doc/start-the-standalone-server.adoc[leveloffset=+1]
+
+// Build and Deploy the Quickstart
+include::../shared-doc/build-and-deploy-the-quickstart.adoc[leveloffset=+1]
+
+[[review_the_modified_server_configuration]]
+== Review the Modified Server Configuration
+
+There are too many additions to the configuration file to list here. Feel free to compare the `standalone.xml` to the backup copy to see the changes made to configure the server to run this quickstart.
+
+[[access_the_application]]
+== Access the Application
+
+The application will be running at the following URL: https://localhost:8080/helloworld-dynamic-client-ssl-context
+
+A main page displays list of links:
+
+[source,options="nowrap"]
+----
+Click below to send request to different ports:
+
+Send request to port 9443
+Send request to port 10443
+----
+
+Each of links executes https GET request on server under specified ports. Each port uses a different TLS certificate. Both GET requests use the same dynamic client SSL context. For http://localhost:8080/helloworld-dynamic-client-ssl-context/rest/port9443request, it will display:
+
+[source,options="nowrap"]
+----
+HTTP status of result is 200
+----
+
+Similar result is for http://localhost:8080/helloworld-dynamic-client-ssl-context/rest/port10443request:
+
+[source,options="nowrap"]
+----
+HTTP status of result is 200
+----
+
+// Server Distribution Testing
+:integrationTestsDirectory: app-web/src/test/
+include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
+
+// Undeploy the Quickstart
+include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
+
+// Restore the {productName} Managed Domain Configuration Manually
+include::../shared-doc/restore-standalone-server-configuration-manual.adoc[leveloffset=+1]
+
+// Quickstart not compatible with OpenShift
+include::../shared-doc/openshift-incompatibility.adoc[leveloffset=+1]
