@@ -21,8 +21,8 @@
     <parent>
         <groupId>org.jboss</groupId>
         <artifactId>jboss-parent</artifactId>
-        <version>47</version>
-    </parent>
+        <version>53</version>
+    </parent> <!-- ingnore, just enabling all QS CI -->
 
     <groupId>org.wildfly.quickstarts</groupId>
     <artifactId>quickstart-aggregator</artifactId>
@@ -54,7 +54,6 @@
         <version.org.wildfly.quickstarts.documentation.plugin>2.4.1.Final</version.org.wildfly.quickstarts.documentation.plugin>
         <!-- other plug-in versions -->
         <version.com.mycyla.license>3.0</version.com.mycyla.license>
-        <version.checkstyle>8.5</version.checkstyle>
         <!-- Explicitly declaring the source encoding eliminates the following
             message: [WARNING] Using platform encoding (UTF-8 actually) to copy
             filtered resources, i.e. build is platform dependent! -->
@@ -62,6 +61,8 @@
         <linkXRef>false</linkXRef>
         <!-- the Maven project should use the minimum Java SE version supported -->
         <maven.compiler.release>17</maven.compiler.release>
+        <jdk.min.version>${maven.compiler.release}</jdk.min.version>
+        <version.checkstyle>10.18.2</version.checkstyle>
     </properties>
 
     <build>
