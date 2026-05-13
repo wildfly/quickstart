@@ -495,6 +495,8 @@ What comes after these prefixes is vendor dependent. We use the SmallRye impleme
 
 At the application level, the `mp.messaging.connector.smallrye-kafka.bootstrap.servers` property says that all conections to Kafka in this application should go to `localhost:9092`. This is not strictly necessary, since this value is the default that would be used if not specified. If we wanted to override this for say the `@Outgoing("to-kafka")` annotated `sendToKafka()` method we could specify this with a property such as:
 
+NOTE: When deploying to Kubernetes or OpenShift via Helm charts, these MicroProfile Config properties are typically set as environment variables. The conversion follows the MicroProfile Config specification: uppercase the property name and replace each non-alphanumeric character (dots, hyphens) with an underscore. For example, `mp.messaging.connector.smallrye-kafka.bootstrap.servers` becomes `MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS`. See the `charts/helm.yaml` file in this quickstart for an example.
+
 [source, properties]
 ----
 mp.messaging.outgoing.to-kafka.bootstrap.servers=otherhost:9092
