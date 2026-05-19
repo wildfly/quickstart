@@ -7,5 +7,7 @@ build:
 deploy:
   replicas: 1
   env:
+    # Environment variable form of mp.messaging.connector.smallrye-kafka.bootstrap.servers
+    # (see MicroProfile Config spec for property-to-env-var mapping rules)
     - name: MP_MESSAGING_CONNECTOR_SMALLRYE_KAFKA_BOOTSTRAP_SERVERS
       value: my-cluster-kafka-bootstrap:9092
