@@ -15,6 +15,7 @@
  */
 package org.jboss.as.quickstart.http_custom_mechanism;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import java.io.IOException;
@@ -36,20 +37,25 @@ import static org.junit.Assert.assertEquals;
 public class BasicRuntimeIT {
 
     private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
+    private String serverHost;
 
-    @Test
-    public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
-        String serverHost = System.getenv("SERVER_HOST");
+    @Before
+    public void setUp() {
+        serverHost = System.getenv("SERVER_HOST");
         if (serverHost == null) {
             serverHost = System.getProperty("server.host");
         }
         if (serverHost == null) {
             serverHost = DEFAULT_SERVER_HOST;
         }
+    }
+
+    @Test
+    public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
         final HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(serverHost+"/http-custom-mechanism-webapp/secured"))
                 .header("X-USERNAME", "quickstartUser")
-                .header("X-PASSWORD", "quickstartPwd1")
+                .header("X-PASSWORD", "quickstartPwd1!")
                 .GET()
                 .build();
         final HttpClient client = HttpClient.newBuilder()
@@ -59,5 +65,22 @@ public class BasicRuntimeIT {
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, response.statusCode());
         Logger.getLogger(getClass().getName()).info("\n"+response.body());
+    }
+
+    @Test
+    public void testHTTPEndpointWithInvalidPassword() throws IOException, InterruptedException, URISyntaxException {
+        final HttpRequest request = HttpRequest.newBuilder()
+                .uri(new URI(serverHost+"/http-custom-mechanism-webapp/secured"))
+                .header("X-USERNAME", "quickstartUser")
+                .header("X-PASSWORD", "wrongpassword")
+                .GET()
+                .build();
+        final HttpClient client = HttpClient.newBuilder()
+                .followRedirects(HttpClient.Redirect.ALWAYS)
+                .connectTimeout(Duration.ofMinutes(1))
+                .build();
+        final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals(401, response.statusCode());
+        Logger.getLogger(getClass().getName()).info("Invalid password correctly rejected with status: " + response.statusCode());
     }
 }

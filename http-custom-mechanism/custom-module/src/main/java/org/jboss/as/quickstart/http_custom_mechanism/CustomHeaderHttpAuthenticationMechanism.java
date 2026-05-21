@@ -98,6 +98,7 @@ class CustomHeaderHttpAuthenticationMechanism implements HttpServerAuthenticatio
 
         if (evidenceVerifyCallback.isVerified() == false) {
             request.authenticationFailed("Username / Password Validation Failed", RESPONDER);
+            return;
         }
 
         /*
