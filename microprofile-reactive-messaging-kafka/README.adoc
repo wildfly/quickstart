@@ -639,7 +639,6 @@ Additionally we want to set a Kafka key for the entries so that we can take adva
     @Incoming("sender")
     @Outgoing("to-kafka")
     public Message<TimedEntry> sendToKafka(String msg) {
-        // Simpler example for debugging
         TimedEntry te = new TimedEntry(new Timestamp(System.currentTimeMillis()), msg);
         Message<TimedEntry> m = Message.of(te);
         // Just use the hash as the Kafka key for this example
@@ -722,6 +721,13 @@ mp.messaging.incoming.from-kafka.connector=smallrye-kafka
 mp.messaging.incoming.from-kafka.topic=testing
 mp.messaging.incoming.from-kafka.value.deserializer=org.wildfly.quickstarts.microprofile.reactive.messaging.TimedEntryDeserializer
 mp.messaging.incoming.from-kafka.key.deserializer=org.apache.kafka.common.serialization.IntegerDeserializer
+
+# Configure Kafka group.id to prevent warn message - if not set, some default value is generated automatically.
+mp.messaging.connector.smallrye-kafka.group.id="microprofile-reactive-messaging-kafka-group-id"
+
+# Needed as per https://github.com/smallrye/smallrye-reactive-messaging/issues/845 since the consumer
+# joins after the messages are sent
+mp.messaging.incoming.from-kafka.auto.offset.reset=earliest
 ----
 
 The MicroProfile Reactive Messaging specification mandates the following pre-fixes:
@@ -859,11 +865,9 @@ It injects an `EntityManager` for the persitence context `test`, which is define
 [source, xml]
 ----
 <?xml version="1.0" encoding="UTF-8"?>
-<persistence version="2.2"
-             xmlns="http://xmlns.jcp.org/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="
-        http://xmlns.jcp.org/xml/ns/persistence
-        http://xmlns.jcp.org/xml/ns/persistence/persistence_2_2.xsd">
+<persistence version="3.0"
+             xmlns="https://jakarta.ee/xml/ns/persistence" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="https://jakarta.ee/xml/ns/persistence https://jakarta.ee/xml/ns/persistence/persistence_3_0.xsd">
     <persistence-unit name="test">
         <jta-data-source>java:jboss/datasources/ExampleDS</jta-data-source>
         <properties>
