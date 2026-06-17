@@ -82,11 +82,12 @@ public class MessagingBean {
     }
 
     @Incoming("from-kafka")
+    @SuppressWarnings("unchecked")
     public CompletionStage<Void> receiveFromKafka(Message<TimedEntry> message) {
         TimedEntry payload = message.getPayload();
 
         IncomingKafkaRecordMetadata<Integer, TimedEntry> md =
-            KafkaMetadataUtil.readIncomingKafkaMetadata(message).get();
+            KafkaMetadataUtil.readIncomingKafkaMetadata(message).orElseThrow();
         String msg =
                 "Received from Kafka, storing it in database\n" +
                 "\t%s\n" +

@@ -723,7 +723,7 @@ mp.messaging.incoming.from-kafka.value.deserializer=org.wildfly.quickstarts.micr
 mp.messaging.incoming.from-kafka.key.deserializer=org.apache.kafka.common.serialization.IntegerDeserializer
 
 # Configure Kafka group.id to prevent warn message - if not set, some default value is generated automatically.
-mp.messaging.connector.smallrye-kafka.group.id="microprofile-reactive-messaging-kafka-group-id"
+mp.messaging.connector.smallrye-kafka.group.id=microprofile-reactive-messaging-kafka-group-id
 
 # Needed as per https://github.com/smallrye/smallrye-reactive-messaging/issues/845 since the consumer
 # joins after the messages are sent
@@ -1698,7 +1698,7 @@ $ mvn wildfly:shutdown
 ====
 The following warning message may be seen when starting the {productName} bootable jar, due to the topic missing in Kafka:
 ```
-WARN  [org.apache.kafka.clients.NetworkClient] (smallrye-kafka-consumer-thread-0) [Consumer clientId=kafka-consumer-from-kafka, groupId="microprofile-reactive-messaging-kafka-group-id"] Error while fetching metadata with correlation id 2 : {testing=LEADER_NOT_AVAILABLE}
+WARN  [org.apache.kafka.clients.NetworkClient] (smallrye-kafka-consumer-thread-0) [Consumer clientId=kafka-consumer-from-kafka, groupId=microprofile-reactive-messaging-kafka-group-id] Error while fetching metadata with correlation id 2 : {testing=LEADER_NOT_AVAILABLE}
 ```
 You may ignore this warning, yet to avoid it the topic may be manually created in advance, with the following command:
 ```
