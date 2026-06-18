@@ -231,6 +231,15 @@ INFO  [class org.jboss.as.quickstarts.cmt.jts.mdb.HelloWorldMDB] (Thread-97 (Act
 
 The web page will also change and show you the new list of customers.
 
+NOTE: You can also verify the state of the JMS queue on application server 2 by using the management CLI. Connect to the second server's management interface and run the following command, replacing `__DEPLOYMENT_NAME__` with the actual deployment file name (e.g. `{artifactId}-application-component-2-{version}.jar`):
+
+[source,options="nowrap"]
+----
+/deployment=__DEPLOYMENT_NAME__/subsystem=messaging-activemq/server=default/jms-queue=jts-quickstart:read-attribute(name=messages-added)
+----
+
+This shows the total number of messages added to the queue since the server started. You can find the deployment name by running `ls /deployment` in the CLI.
+
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
