@@ -1,0 +1,17 @@
+batch
+
+# The following part is needed for ejb from server a to server b
+# Add the authentication configuration and authentication context that will be used for outbound connections into server A
+/subsystem=elytron/authentication-configuration=ejb-outbound-configuration:add(security-domain=jwt-domain,sasl-mechanism-selector="OAUTHBEARER")
+/subsystem=elytron/authentication-context=ejb-outbound-context:add(match-rules=[{authentication-configuration=ejb-outbound-configuration}])
+
+# Add the outbound socket binding
+/socket-binding-group=standard-sockets/remote-destination-outbound-socket-binding=ejb-outbound:add(host=localhost,port=${ejb-outbound-port:8280})
+
+# Add the remote outbound connection
+/subsystem=remoting/remote-outbound-connection=ejb-outbound-connection:add(outbound-socket-binding-ref=ejb-outbound, authentication-context=ejb-outbound-context)
+
+run-batch
+
+reload
+

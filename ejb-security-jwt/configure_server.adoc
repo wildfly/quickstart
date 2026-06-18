@@ -1,0 +1,41 @@
+==== Configure the {productName} Server
+Use the following CLI to configure the {productName} Server:
+
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __${jbossHomeName}__/bin/jboss-cli.sh -c {hostController} --file=configure-elytron.cli
+----
+
+It creates an elytron security realm called `jwt-realm` with the `username` as the principal claim, and the oauth2 introspection url to the one exposed by the Keycloak:
+
+.The `jwt-realm` information in standalone.xml
+[source, xml]
+----
+<token-realm name="jwt-realm" principal-claim="username">
+    <oauth2-introspection client-id="app" client-secret="secret" introspection-url="http://localhost:8180/realms/jwt-realm/protocol/openid-connect/token/introspect"/>
+</token-realm>
+----
+
+It also creates an elytron security domain called `jwt-domain` with the default realm `jwt-realm` and role-decoder to `roles-attribute` which is a simple-role-decoder from attribute `Roles`.
+
+.The `jwt-domain` information in standalone.xml
+[source, xml]
+----
+<security-domain name="jwt-domain" default-realm="jwt-realm" permission-mapper="default-permission-mapper">
+    <realm name="jwt-realm" role-decoder="roles-attribute"/>
+</security-domain>
+----
+
+It also creates a `jwt-sasl-authentication` sasl-authentication-factory which uses the `jwt-domain` and `OAUTHBEARER` SASL mechanism. It updates remoting subsystem to use `jwt-sasl-authentication` created in previous step, and then creates a `application-security-domain` called `jwt-app-domain` in ejb3 subsystem, the latter matches the `@org.jboss.ejb3.annotation.SecurityDomain("jwt-app-domain")` in the EJB.
+
+.The `jwt-sasl-authentication` information in standalone.xml
+[source, xml]
+----
+<sasl-authentication-factory name="jwt-sasl-authentication" sasl-server-factory="configured" security-domain="jwt-domain">
+    <mechanism-configuration>
+        <mechanism mechanism-name="OAUTHBEARER">
+            <mechanism-realm realm-name="jwt-realm"/>
+        </mechanism>
+    </mechanism-configuration>
+</sasl-authentication-factory>
+----
