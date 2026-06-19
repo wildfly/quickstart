@@ -28,7 +28,7 @@
         <relativePath/>
     </parent>
     <artifactId>microprofile-rest-client</artifactId>
-    <version>40.0.1.Final-SNAPSHOT</version>
+    <version>40.0.1.Final</version>
     <packaging>war</packaging>
     <name>Quickstart: microprofile-rest-client</name>
 
@@ -44,13 +44,13 @@
         <!-- the Maven project should use the minimum Java SE version supported -->
         <maven.compiler.release>17</maven.compiler.release>
         <!-- the version for the Server -->
-        <version.server>40.0.0.Final</version.server>
+        <version.server>40.0.1.Final</version.server>
         <!-- the versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
         <version.bom.expansion>${version.server}</version.bom.expansion>
         <version.plugin.wildfly>6.0.0.Final</version.plugin.wildfly>
         <!-- the versions for other Dependencies and Plugins -->
-        <version.io.undertow>2.3.24.Final</version.io.undertow>
+        <version.io.undertow.servlet>2.0.0.Final</version.io.undertow.servlet>
         <version.org.jboss.resteasy>6.2.16.Final</version.org.jboss.resteasy>
         <version.org.junit>5.10.5</version.org.junit>
         <!-- Configuration settings -->
@@ -152,20 +152,11 @@
             <version>${version.org.jboss.resteasy}</version>
             <scope>test</scope>
         </dependency>
-        <!-- These Undertow dependencies are required for the SeBootstrap implementation for RESTEasy. The undertow-core
-             dependency is part of the org.wildfly.bom:wildfly-ee BOM. However, we need both the undertow-core and
-             undertow-servlet dependency versions to match.
-         -->
+        <!-- The Undertow dependency is required for the SeBootstrap implementation for RESTEasy. -->
         <dependency>
-            <groupId>io.undertow</groupId>
-            <artifactId>undertow-core</artifactId>
-            <version>${version.io.undertow}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>io.undertow</groupId>
+            <groupId>io.undertow.ee</groupId>
             <artifactId>undertow-servlet</artifactId>
-            <version>${version.io.undertow}</version>
+            <version>${version.io.undertow.servlet}</version>
             <scope>test</scope>
         </dependency>
         <!-- End org.jboss.resteasy:resteasy-undertow-cdi requirements -->
