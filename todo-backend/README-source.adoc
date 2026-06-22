@@ -11,23 +11,14 @@ include::../shared-doc/attributes.adoc[]
 :openshift: true
 :archiveType: war
 :useHelmChartDir: true
-:helm-install-prerequisites-openshift: ../todo-backend/helm-install-prerequisites.adoc
-:helm-install-prerequisites-kubernetes: ../todo-backend/helm-install-prerequisites.adoc
 :helmSetWildFlyArgumentPrefix: wildfly.
 
 [abstract]
 The `todo-backend` quickstart demonstrates how to implement a backend that exposes a HTTP API with Jakarta REST
 to manage a list of ToDo which are persisted in a database with JPA.
 
-ifndef::ProductRelease[]
-This quickstart shows how to setup a local deployment of this backend as well as a deployment on OpenShift to connect
+This quickstart shows how to setup a local deployment of this backend, as well as a deployment on OpenShift to connect
 to a PostgreSQL database also hosted on OpenShift.
-endif::[]
-ifdef::ProductRelease[]
-This quickstart shows how to deploy a {productName} application on OpenShift that connects
-to a PostgreSQL database also hosted on OpenShift.
-endif::[]
-
 
 == What is it?
 
@@ -36,16 +27,8 @@ to manage a list of ToDo which are persisted in a database with `JPA`.
 
 * The backend exposes a HTTP API to manage a list of todos that complies with the specs defined at https://todobackend.com/specs/index.html[todobackend.com].
 * It requires a connection to a PostgreSQL database to persist the todos.
-ifndef::ProductRelease[]
 * It uses the Server Provisioning for local and cloud deployment
-endif::[]
-* It can be build with {productName} S2I images for cloud deployment
-ifndef::ProductRelease[]
-* It is deployed on OpenShift using the https://docs.wildfly.org/wildfly-charts/[Helm Chart for {productName}].
-endif::[]
-ifdef::ProductRelease[]
-* It is deployed on OpenShift using the https://jbossas.github.io/eap-charts//[Helm Chart for {productName}].
-endif::[]
+* It is deployed on OpenShift using the https://{helmRepoUrl}/[Helm Chart for {productName}].
 
 // Link to the quickstart source
 include::../shared-doc/view-the-source.adoc[leveloffset=+1]
@@ -59,63 +42,19 @@ include::../shared-doc/system-requirements.adoc[leveloffset=+1]
 This backend is built using {productName} S2I Builder and Runtime images. 
 
 ifndef::ProductRelease[]
-When the image is built, `org.wildfly.plugins:wildfly-maven-plugin` plugin provisions the {productName} application server and all the feature packs it needs for its features.
-The layers are defined in the `pom.xml` file in the `<configuration>` section of the `org.wildfly.plugins:wildfly-maven-plugin` plugin:
-
-[source,xml]
-----
-<layers>
-  <layer>cloud-server</layer>
-  <layer>postgresql-datasource</layer>
-</layers>
-----
+When the image is built, `org.wildfly.plugins:wildfly-maven-plugin` provisions the {productName} application server and all the feature packs it needs for its features.
 endif::[]
 
 ifdef::ProductRelease[]
-When the image is built, `org.jboss.eap.plugins:eap-maven-plugin` plugin provisions the {productName} application server and all the feature packs it needs for its features.
-The layers are defined in the `pom.xml` file in the `<configuration>` section of the `org.jboss.eap.plugins:eap-maven-plugin` plugin:
-
-[source,xml]
-----
-<layers>
-  <layer>cloud-server</layer>
-  <layer>postgresql-datasource</layer>
-</layers>
-----
+When the image is built, `org.jboss.eap.plugins:eap-maven-plugin` provisions the {productName} application server and all the feature packs it needs for its features.
 endif::[]
 
-The `cloud-server` layer provides everything needed to run the backend on OpenShift. This also includes access to
-Jakarta EE APIs such as CDI, Jakarta REST, JPA, etc. These two layers comes from the {productName} feature pack provided in the
-{productName} S2I builder image.
-
-ifndef::ProductRelease[]
-The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is also provided by
-`org.wildfly:wildfly-datasources-galleon-pack` which is included in the WildFly S2I image.
-
-The Git repository for this feature pack is hosted at https://github.com/wildfly-extras/wildfly-datasources-galleon-pack.
-It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
-endif::[]
-
-ifdef::ProductRelease[]
-The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is also provided by
-the `org.jboss.eap:eap-datasources-galleon-pack` feature pack.
-
-The Git repository for this feature pack is hosted at https://github.com/jbossas/eap-datasources-galleon-pack.
-It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
-endif::[]
+The plugin discovers most feature packs needed automatically, we just need the `postgresql` add-on, which provides a JDBC driver and Datasource to connect to a PostgreSQL database.
 
 === Connection to the PostgreSQL database
 
-ifndef::ProductRelease[]
-As mentioned, the JDBC drivers and datasource configuration that the backend uses to connect to the PostgreSQL database
-is provided by the `org.wildfly:wildfly-datasources-galleon-pack` feature pack.
-endif::[]
-ifdef::ProductRelease[]
-As mentioned, the JDBC drivers and datasource configuration that the backend uses to connect to the PostgreSQL database
-is provided by the `org.jboss.eap:eap-datasources-galleon-pack` feature pack.
-endif::[]
+By default the provisioned `postgresql` add-on exposes a single datasource.
 
-By default, it exposes a single datasource.
 In the backend, the name of this datasource is `ToDos` and is specified in the `persistence.xml` to configure JPA:
 
 [source,xml]
@@ -139,11 +78,7 @@ The Web frontend for this quickstart uses JavaScript calls to query the backend'
 We must enable Cross-Origin Resource Sharing (CORS) filters in the `undertow` subsystem of {productName} to allow
 these HTTP requests to succeed.
 
-ifdef::ProductRelease[]
-==== Configuration with {productName} S2I
-
 As we use S2I to provision the server and build the application, we provide a CLI script that contains all the commands to create and configure the CORS filters in Undertow. This script is located in the `src/scripts/cors_filters.cli`.
-endif::[]
 
 This script is executed at build time and will provide the following HTTP headers to enabled CORS:
 
@@ -212,22 +147,38 @@ Please note that the quickstart includes integration tests, which may be execute
 $ mvn verify -Pintegration-testing
 ----
 
+We can also verify that this application is properly working as a ToDo Backend by running its https://todobackend.com/specs/index.html[specs] on it.
+
+Once all tests passed, we can use the https://todobackend.com/client/index.html[todobackend client] to have a Web application connected to the backend.
+
+[NOTE]
+====
+https://todobackend.com/[todobackend.com] is an external service used to showcase this quickstart.
+It might not always be functional but does not impact the availability of this backend.
+====
+
 //===========================================================
 // Openshift - START
 == Run the Backend on OpenShift
 
 // OpenShift
+:additional-readme-openshift: true
+:helm-install-prerequisites-openshift: ../todo-backend/helm-install-prerequisites.adoc
 include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
-include::../todo-backend/additional-readme-openshift.adoc[leveloffset=+1]
+:!additional-readme-openshift:
+:!helm-install-prerequisites-openshift:
+
 // OpenShift - END
 //===========================================================
 
 //===========================================================
 == Run the Backend on Kubernetes
+:additional-readme-kubernetes: true
+:helm-install-prerequisites-kubernetes: ../todo-backend/helm-install-prerequisites.adoc
 include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
-include::../todo-backend/additional-readme-kubernetes.adoc[leveloffset=+1]
+:!additional-readme-kubernetes:
+:!helm-install-prerequisites-kubernetes:
 //===========================================================
-
 
 == Conclusion
 

@@ -1,19 +1,44 @@
-ifndef::ProductRelease[]
+ifdef::additional-readme-openshift[]
+:additional-readme-cloud-platform: OpenShift
+endif::[]
+ifdef::additional-readme-kubernetes[]
+:additional-readme-cloud-platform: Kubernetes
+endif::[]
+
 The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I.
 It also deploys the PostGreSQL database to store the data.
 
-[source,options="nowrap"]
+[source,options="nowrap",subs="+attributes"]
 ----
 dependencies:
-    - name: wildfly
-      repository: http://docs.wildfly.org/wildfly-charts/
+    - name: {helmRepoName}
+      repository: {helmRepoUrl}
       version: ...
 ----
 
-So we need to update the dependencies of our Helm Chart.
+To update the dependencies of our Helm Chart execute the following command.
 
 [source,options="nowrap",subs="+attributes"]
 ----
-$ helm dependency update charts/
+$ helm dependency update charts
 ----
-endif::[]
+
+= Environment variables for PostgreSQL
+
+The Helm Chart also contains the environment variables required to connect to the PostgreSQL database.
+
+Unlike local deployments, where credentials are set directly, for {additional-readme-cloud-platform} we rely on secrets, so that the credentials are never copied outside {additional-readme-cloud-platform}:
+
+[source,options="nowrap"]
+----
+    deploy:
+      env:
+        - name: POSTGRESQL_PASSWORD
+          valueFrom:
+            configMapKeyRef:
+              name: postgres-configmap
+              key: POSTGRES_PASSWORD
+----
+
+When the application is deployed, the value for the `POSTGRESQL_PASSWORD` will be taken from the key `POSTGRES_PASSWORD`
+in the secret `postgres-configmap`.
