@@ -1,0 +1,40 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: todo-jakarta-data-postgresql
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: todo-jakarta-data-postgresql
+  template:
+    metadata:
+      labels:
+        app: todo-jakarta-data-postgresql
+    spec:
+      containers:
+        - name: postgres
+          image: postgres:17
+          ports:
+            - containerPort: 5432
+              name: postgres
+          envFrom:
+            - configMapRef:
+                name: postgres-configmap
+          volumeMounts:
+            - name: pgdata
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: pgdata
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: todo-jakarta-data-postgresql
+spec:
+  ports:
+    - port: 5432
+      targetPort: postgres
+  selector:
+    app: todo-jakarta-data-postgresql
