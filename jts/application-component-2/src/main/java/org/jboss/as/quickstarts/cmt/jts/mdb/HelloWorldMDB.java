@@ -20,6 +20,7 @@ import java.util.logging.Logger;
 
 import jakarta.ejb.ActivationConfigProperty;
 import jakarta.ejb.MessageDriven;
+import jakarta.inject.Inject;
 import jakarta.jms.JMSException;
 import jakarta.jms.Message;
 import jakarta.jms.MessageListener;
@@ -42,14 +43,15 @@ public class HelloWorldMDB implements MessageListener {
 
     private static final Logger LOGGER = Logger.getLogger(HelloWorldMDB.class.toString());
 
-    /**
-     * @see MessageListener#onMessage(Message)
-     */
+    @Inject
+    private MessageCounter messageCounter;
+
     public void onMessage(Message rcvMessage) {
         TextMessage msg = null;
         try {
             if (rcvMessage instanceof TextMessage) {
                 msg = (TextMessage) rcvMessage;
+                messageCounter.increment();
                 LOGGER.info("Received Message: " + msg.getText());
             } else {
                 LOGGER.warning("Message of wrong type: " + rcvMessage.getClass().getName());

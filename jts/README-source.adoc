@@ -206,7 +206,7 @@ Since this quickstart builds two separate components, you can not use the standa
 mvn clean install wildfly:deploy
 ----
 
-. This will deploy `{artifactId}-application-component-1.war` and `{artifactId}-application-component-2.jar` to the running instance of the server.
+. This will deploy `{artifactId}-application-component-1.war` and `{artifactId}-application-component-2.war` to the running instance of the server.
 
 [NOTE]
 ====
@@ -235,7 +235,7 @@ NOTE: You can also verify the state of the JMS queue on application server 2 by 
 
 [source,options="nowrap"]
 ----
-/deployment={artifactId}-application-component-2.jar/subsystem=messaging-activemq/server=default/jms-queue=jts-quickstart:read-attribute(name=messages-added)
+/deployment={artifactId}-application-component-2.war/subsystem=messaging-activemq/server=default/jms-queue=jts-quickstart:read-attribute(name=messages-added)
 ----
 
 This shows the total number of messages added to the queue since the server started.

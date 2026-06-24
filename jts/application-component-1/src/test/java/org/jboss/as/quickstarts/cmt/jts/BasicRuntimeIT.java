@@ -15,22 +15,12 @@
  */
 package org.jboss.as.quickstarts.cmt.jts;
 
-import static org.jboss.as.controller.client.helpers.ClientConstants.CHILD_TYPE;
-import static org.jboss.as.controller.client.helpers.ClientConstants.NAME;
-import static org.jboss.as.controller.client.helpers.ClientConstants.OP;
-import static org.jboss.as.controller.client.helpers.ClientConstants.OP_ADDR;
-import static org.jboss.as.controller.client.helpers.ClientConstants.OUTCOME;
-import static org.jboss.as.controller.client.helpers.ClientConstants.READ_ATTRIBUTE_OPERATION;
-import static org.jboss.as.controller.client.helpers.ClientConstants.READ_CHILDREN_NAMES_OPERATION;
-import static org.jboss.as.controller.client.helpers.ClientConstants.RESULT;
-import static org.jboss.as.controller.client.helpers.ClientConstants.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.net.CookieManager;
 import java.net.CookiePolicy;
-import java.net.InetAddress;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URLEncoder;
@@ -45,16 +35,13 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.jboss.as.controller.client.ModelControllerClient;
-import org.jboss.dmr.ModelNode;
 import org.junit.Test;
 
 public class BasicRuntimeIT {
 
     private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
     private static final String APP_CONTEXT = "/jts-application-component-1";
-    private static final String DEFAULT_SERVER2_MGMT_HOST = "localhost";
-    private static final int DEFAULT_SERVER2_MGMT_PORT = 10090;
+    private static final String DEFAULT_SERVER2_HOST = "http://localhost:8180";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -77,28 +64,28 @@ public class BasicRuntimeIT {
     public void testAddCustomer() throws Exception {
         HttpClient client = createHttpClient();
         String uniqueName = "TestCustomer_" + System.currentTimeMillis();
-        long baselineMessages = getMessagesAdded();
+        long baselineMessages = getMessagesReceived();
 
         HttpResponse<String> response = submitCustomerForm(client, uniqueName);
         assertEquals(200, response.statusCode());
         assertTrue(response.body().contains(uniqueName));
         assertTrue(response.uri().toString().contains("customers.jsf"));
 
-        waitForMessagesAdded(baselineMessages + 1, 30_000);
+        waitForMessagesReceived(baselineMessages + 1, 30_000);
     }
 
     @Test
     public void testDuplicateCustomerRollback() throws Exception {
         HttpClient client = createHttpClient();
         String uniqueName = "DuplicateTest_" + System.currentTimeMillis();
-        long baselineMessages = getMessagesAdded();
+        long baselineMessages = getMessagesReceived();
 
         HttpResponse<String> response = submitCustomerForm(client, uniqueName);
         assertEquals(200, response.statusCode());
         assertTrue(response.body().contains(uniqueName));
         assertTrue(response.uri().toString().contains("customers.jsf"));
 
-        waitForMessagesAdded(baselineMessages + 1, 30_000);
+        waitForMessagesReceived(baselineMessages + 1, 30_000);
 
         response = submitCustomerForm(client, uniqueName);
         assertEquals(200, response.statusCode());
@@ -118,20 +105,15 @@ public class BasicRuntimeIT {
         return host;
     }
 
-    private String getServer2MgmtHost() {
-        String host = System.getenv("SERVER2_MGMT_HOST");
+    private String getServer2Host() {
+        String host = System.getenv("SERVER2_HOST");
         if (host == null) {
-            host = System.getProperty("server2.mgmt.host");
+            host = System.getProperty("server2.host");
         }
         if (host == null) {
-            host = DEFAULT_SERVER2_MGMT_HOST;
+            host = DEFAULT_SERVER2_HOST;
         }
         return host;
-    }
-
-    private int getServer2MgmtPort() {
-        String port = System.getProperty("server2.mgmt.port");
-        return port != null ? Integer.parseInt(port) : DEFAULT_SERVER2_MGMT_PORT;
     }
 
     private HttpClient createHttpClient() {
@@ -167,60 +149,37 @@ public class BasicRuntimeIT {
         return client.send(postRequest, HttpResponse.BodyHandlers.ofString());
     }
 
-    private void waitForMessagesAdded(long expected, long timeoutMs) throws IOException, InterruptedException {
+    private void waitForMessagesReceived(long expected, long timeoutMs) throws IOException, InterruptedException {
         long deadline = System.currentTimeMillis() + timeoutMs;
         while (System.currentTimeMillis() < deadline) {
-            if (getMessagesAdded() == expected) return;
+            if (getMessagesReceived() == expected) return;
             Thread.sleep(500);
         }
-        assertEquals("Timed out waiting for messages-added to reach " + expected,
-                expected, getMessagesAdded());
+        assertEquals("Timed out waiting for messages received to reach " + expected,
+                expected, getMessagesReceived());
     }
 
     private void assertMessagesStayAt(long expected, long durationMs) throws IOException, InterruptedException {
         long deadline = System.currentTimeMillis() + durationMs;
         while (System.currentTimeMillis() < deadline) {
-            assertEquals(expected, getMessagesAdded());
+            assertEquals(expected, getMessagesReceived());
             Thread.sleep(500);
         }
     }
 
-    private long getMessagesAdded() throws IOException {
-        try (ModelControllerClient client = ModelControllerClient.Factory.create(
-                InetAddress.getByName(getServer2MgmtHost()), getServer2MgmtPort())) {
-            String deploymentName = findComponent2Deployment(client);
-            ModelNode op = new ModelNode();
-            op.get(OP).set(READ_ATTRIBUTE_OPERATION);
-            op.get(OP_ADDR).add("deployment", deploymentName)
-                           .add("subsystem", "messaging-activemq")
-                           .add("server", "default")
-                           .add("jms-queue", "jts-quickstart");
-            op.get(NAME).set("messages-added");
-            ModelNode result = client.execute(op);
-            if (!SUCCESS.equals(result.get(OUTCOME).asString())) {
-                throw new RuntimeException("Failed to read messages-added: "
-                        + result.get("failure-description").asString());
-            }
-            return result.get(RESULT).asLong();
-        }
-    }
-
-    private String findComponent2Deployment(ModelControllerClient client) throws IOException {
-        ModelNode op = new ModelNode();
-        op.get(OP).set(READ_CHILDREN_NAMES_OPERATION);
-        op.get(CHILD_TYPE).set("deployment");
-        ModelNode result = client.execute(op);
-        if (!SUCCESS.equals(result.get(OUTCOME).asString())) {
-            throw new RuntimeException("Failed to list deployments on Server 2: "
-                    + result.get("failure-description").asString());
-        }
-        for (ModelNode entry : result.get(RESULT).asList()) {
-            String name = entry.asString();
-            if (name.startsWith("jts-application-component-2")) {
-                return name;
-            }
-        }
-        throw new RuntimeException("jts-application-component-2 deployment not found on Server 2");
+    private long getMessagesReceived() throws IOException, InterruptedException {
+        String server2Host = getServer2Host();
+        HttpClient client = HttpClient.newBuilder()
+                .connectTimeout(Duration.ofMinutes(1))
+                .build();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(server2Host + "/jts-application-component-2/messages/count"))
+                .GET()
+                .build();
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        assertEquals("Message count request failed with status " + response.statusCode(),
+                200, response.statusCode());
+        return Long.parseLong(response.body().trim());
     }
 
     private static BodyPublisher ofFormData(Map<String, String> data) {

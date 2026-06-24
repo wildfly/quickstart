@@ -24,6 +24,7 @@
         <version>41.0.0.Beta1-SNAPSHOT</version>
     </parent>
     <artifactId>jts-application-component-2</artifactId>
+    <packaging>war</packaging>
     <name>Quickstart: jts - application-component-2</name>
     <description>A project that demonstrates how to use CMT with JTS; the application-component-2 POM file</description>
 
@@ -65,6 +66,12 @@
             <artifactId>jakarta.annotation-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- Import the JAX-RS API for the message counter endpoint -->
+        <dependency>
+            <groupId>jakarta.ws.rs</groupId>
+            <artifactId>jakarta.ws.rs-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
 
     <build>
@@ -77,29 +84,35 @@
                 <artifactId>wildfly-maven-plugin</artifactId>
                 <configuration>
                     <port>10090</port>
-                    <filename>${project.build.finalName}.jar</filename>
                 </configuration>
             </plugin>
-            <!-- The other application-component will depend on this -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-ejb-plugin</artifactId>
+                <artifactId>maven-war-plugin</artifactId>
                 <configuration>
-                    <ejbVersion>3.2</ejbVersion>
-                    <!-- this is false by default -->
-                    <classifier>ejb</classifier>
-                    <generateClient>true</generateClient>
-                    <clientExcludes>
-                        <clientExclude>**/*Impl.class</clientExclude>
-                        <clientExclude>**/*MDB.class</clientExclude>
-                    </clientExcludes>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
                 </configuration>
+            </plugin>
+            <!-- Generate a client JAR with the EJB interfaces for application-component-1 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
                 <executions>
                     <execution>
+                        <id>client-jar</id>
                         <goals>
-                            <goal>ejb</goal>
+                            <goal>jar</goal>
                         </goals>
                         <phase>package</phase>
+                        <configuration>
+                            <classifier>client</classifier>
+                            <excludes>
+                                <exclude>**/*Impl.class</exclude>
+                                <exclude>**/*MDB.class</exclude>
+                                <exclude>**/rest/**</exclude>
+                                <exclude>**/MessageCounter.class</exclude>
+                            </excludes>
+                        </configuration>
                     </execution>
                 </executions>
             </plugin>
