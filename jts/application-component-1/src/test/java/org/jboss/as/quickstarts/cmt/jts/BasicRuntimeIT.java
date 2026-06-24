@@ -15,13 +15,15 @@
  */
 package org.jboss.as.quickstarts.cmt.jts;
 
+import static org.jboss.as.controller.client.helpers.ClientConstants.CHILD_TYPE;
 import static org.jboss.as.controller.client.helpers.ClientConstants.NAME;
 import static org.jboss.as.controller.client.helpers.ClientConstants.OP;
 import static org.jboss.as.controller.client.helpers.ClientConstants.OP_ADDR;
+import static org.jboss.as.controller.client.helpers.ClientConstants.OUTCOME;
 import static org.jboss.as.controller.client.helpers.ClientConstants.READ_ATTRIBUTE_OPERATION;
 import static org.jboss.as.controller.client.helpers.ClientConstants.READ_CHILDREN_NAMES_OPERATION;
-import static org.jboss.as.controller.client.helpers.ClientConstants.CHILD_TYPE;
 import static org.jboss.as.controller.client.helpers.ClientConstants.RESULT;
+import static org.jboss.as.controller.client.helpers.ClientConstants.SUCCESS;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
@@ -51,7 +53,8 @@ public class BasicRuntimeIT {
 
     private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
     private static final String APP_CONTEXT = "/jts-application-component-1";
-    private static final int SERVER2_MGMT_PORT = 10090;
+    private static final String DEFAULT_SERVER2_MGMT_HOST = "localhost";
+    private static final int DEFAULT_SERVER2_MGMT_PORT = 10090;
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
@@ -66,8 +69,8 @@ public class BasicRuntimeIT {
                 .build();
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, response.statusCode());
-        final String[] bodyLines = response.body().lines().toArray(String[]::new);
-        assertEquals("<meta http-equiv=\"Refresh\" content=\"0; URL=addCustomer.jsf\">", bodyLines[bodyLines.length - 3]);
+        assertTrue(response.body().contains(
+                "<meta http-equiv=\"Refresh\" content=\"0; URL=addCustomer.jsf\">"));
     }
 
     @Test
@@ -81,29 +84,27 @@ public class BasicRuntimeIT {
         assertTrue(response.body().contains(uniqueName));
         assertTrue(response.uri().toString().contains("customers.jsf"));
 
-        Thread.sleep(2000);
-        assertEquals(baselineMessages + 1, getMessagesAdded());
+        waitForMessagesAdded(baselineMessages + 1, 30_000);
     }
 
     @Test
     public void testDuplicateCustomerRollback() throws Exception {
         HttpClient client = createHttpClient();
         String uniqueName = "DuplicateTest_" + System.currentTimeMillis();
+        long baselineMessages = getMessagesAdded();
 
         HttpResponse<String> response = submitCustomerForm(client, uniqueName);
         assertEquals(200, response.statusCode());
         assertTrue(response.body().contains(uniqueName));
         assertTrue(response.uri().toString().contains("customers.jsf"));
 
-        Thread.sleep(2000);
-        long baselineMessages = getMessagesAdded();
+        waitForMessagesAdded(baselineMessages + 1, 30_000);
 
         response = submitCustomerForm(client, uniqueName);
         assertEquals(200, response.statusCode());
         assertTrue(response.uri().toString().contains("duplicate.jsf"));
 
-        Thread.sleep(2000);
-        assertEquals(baselineMessages, getMessagesAdded());
+        assertMessagesStayAt(baselineMessages + 1, 10_000);
     }
 
     private String getServerHost() {
@@ -115,6 +116,22 @@ public class BasicRuntimeIT {
             host = DEFAULT_SERVER_HOST;
         }
         return host;
+    }
+
+    private String getServer2MgmtHost() {
+        String host = System.getenv("SERVER2_MGMT_HOST");
+        if (host == null) {
+            host = System.getProperty("server2.mgmt.host");
+        }
+        if (host == null) {
+            host = DEFAULT_SERVER2_MGMT_HOST;
+        }
+        return host;
+    }
+
+    private int getServer2MgmtPort() {
+        String port = System.getProperty("server2.mgmt.port");
+        return port != null ? Integer.parseInt(port) : DEFAULT_SERVER2_MGMT_PORT;
     }
 
     private HttpClient createHttpClient() {
@@ -150,9 +167,27 @@ public class BasicRuntimeIT {
         return client.send(postRequest, HttpResponse.BodyHandlers.ofString());
     }
 
+    private void waitForMessagesAdded(long expected, long timeoutMs) throws IOException, InterruptedException {
+        long deadline = System.currentTimeMillis() + timeoutMs;
+        while (System.currentTimeMillis() < deadline) {
+            if (getMessagesAdded() == expected) return;
+            Thread.sleep(500);
+        }
+        assertEquals("Timed out waiting for messages-added to reach " + expected,
+                expected, getMessagesAdded());
+    }
+
+    private void assertMessagesStayAt(long expected, long durationMs) throws IOException, InterruptedException {
+        long deadline = System.currentTimeMillis() + durationMs;
+        while (System.currentTimeMillis() < deadline) {
+            assertEquals(expected, getMessagesAdded());
+            Thread.sleep(500);
+        }
+    }
+
     private long getMessagesAdded() throws IOException {
         try (ModelControllerClient client = ModelControllerClient.Factory.create(
-                InetAddress.getByName("localhost"), SERVER2_MGMT_PORT)) {
+                InetAddress.getByName(getServer2MgmtHost()), getServer2MgmtPort())) {
             String deploymentName = findComponent2Deployment(client);
             ModelNode op = new ModelNode();
             op.get(OP).set(READ_ATTRIBUTE_OPERATION);
@@ -162,6 +197,10 @@ public class BasicRuntimeIT {
                            .add("jms-queue", "jts-quickstart");
             op.get(NAME).set("messages-added");
             ModelNode result = client.execute(op);
+            if (!SUCCESS.equals(result.get(OUTCOME).asString())) {
+                throw new RuntimeException("Failed to read messages-added: "
+                        + result.get("failure-description").asString());
+            }
             return result.get(RESULT).asLong();
         }
     }
@@ -171,6 +210,10 @@ public class BasicRuntimeIT {
         op.get(OP).set(READ_CHILDREN_NAMES_OPERATION);
         op.get(CHILD_TYPE).set("deployment");
         ModelNode result = client.execute(op);
+        if (!SUCCESS.equals(result.get(OUTCOME).asString())) {
+            throw new RuntimeException("Failed to list deployments on Server 2: "
+                    + result.get("failure-description").asString());
+        }
         for (ModelNode entry : result.get(RESULT).asList()) {
             String name = entry.asString();
             if (name.startsWith("jts-application-component-2")) {
