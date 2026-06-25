@@ -154,7 +154,7 @@ The following command downloads the PostgreSQL driver automatically through Mave
 ----
 mvn clean package
 ----
-1. Then, add a JBoss Module with the PostgreSQL driver to the {productName} server 1:
+2. Then, add a JBoss Module with the PostgreSQL driver to the {productName} server 1:
 +
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -162,14 +162,14 @@ $__{jbossHomeName}_1__/bin/jboss-cli.sh "embed-server,\
   module add --name=org.postgresql.jdbc \
   --resources=application-component-1/target/postgresql/postgresql.jar"
 ----
-1. Moreover, the PostgreSQL driver needs to be added to the datasources subsystem, in the {productName} server 1:
+3. Moreover, the PostgreSQL driver needs to be added to the datasources subsystem, in the {productName} server 1:
 +
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
 $__{jbossHomeName}_1__/bin/jboss-cli.sh "embed-server --server-config=standalone-full.xml,\
   /subsystem=datasources/jdbc-driver=postgresql:add(driver-name=postgresql,driver-module-name=org.postgresql.jdbc,driver-xa-datasource-class-name=org.postgresql.xa.PGXADataSource)"
 ----
-1. Finally, it is time to run the script for adding the PostgreSQL datasource to the {productName} server 1:
+4. Finally, it is time to run the script for adding the PostgreSQL datasource to the {productName} server 1:
 +
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
 ----
@@ -242,6 +242,21 @@ This shows the total number of messages added to the queue since the server star
 
 // Server Distribution Testing
 include::../shared-doc/run-integration-tests-with-server-distribution.adoc[leveloffset=+1]
+
+[NOTE]
+====
+When running the integration tests, the `testDuplicateCustomerRollback` test intentionally submits a duplicate customer name to verify the JTS distributed transaction rollback. The following warnings and errors will appear in the application server 1 log and are safe to ignore:
+[source]
+----
+WARN  [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (default task-3) SQL Error: 0, SQLState: 23505
+ERROR [org.hibernate.engine.jdbc.spi.SqlExceptionHelper] (default task-3) ERROR: duplicate key value violates unique constraint "uk6m4fuhxj4ckixi1vsb8osii7r"
+WARN  [com.arjuna.ats.jts] (default task-3) ARJUNA022024: ArjunaTransactionImple.doBeforeCompletion caught exception: org.omg.CORBA.UNKNOWN: ...
+WARN  [com.arjuna.ats.jtax] (default task-3) ARJUNA024068: Caught exception:: org.omg.CORBA.TRANSACTION_ROLLEDBACK: ...
+ERROR [org.jboss.as.ejb3.invocation] (default task-3) WFLYEJB0034: Jakarta Enterprise Beans Invocation failed on component CustomerManagerEJB ...
+WARNING [org.jboss.as.quickstarts.cmt.controller.CustomerManager] (default task-3) Caught a duplicate: ...
+----
+====
+
 // Undeploy the Quickstart
 include::../shared-doc/undeploy-the-quickstart.adoc[leveloffset=+1]
 
