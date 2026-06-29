@@ -115,7 +115,7 @@ After stopping the server, open the `__{jbossHomeName}_1__/standalone/configurat
 +
 [source,xml,subs="attributes+",options="nowrap"]
 ----
-<subsystem xmlns="{IiopOpenJdkSubsystemNamespace}">
+<subsystem xmlns="urn:jboss:domain:iiop-openjdk:3.0">
     <initializers security="elytron" transactions="full" />
 </subsystem>
 ----
@@ -124,7 +124,7 @@ After stopping the server, open the `__{jbossHomeName}_1__/standalone/configurat
 +
 [source,xml,subs="attributes+",options="nowrap"]
 ----
-<subsystem xmlns="{TransactionsSubsystemNamespace}">
+<subsystem xmlns="urn:jboss:domain:transactions:7.0">
     <core-environment node-identifier="${jboss.tx.node.id}">
         <process-id>
             <uuid/>
@@ -144,9 +144,7 @@ Make a copy of this {productName} directory structure to use for the second serv
 === Configure Server1 to use PostgreSQL
 
 The {productName} server 1 need to be configured to be able to connect to the database created previously in the xref:configure_the_postgresql_database_for_use_with_this_quickstart[Create a PostgreSQL Database] section.
-First of all, a JDBC driver needs to be installed as https://docs.wildfly.org/30/Developer_Guide.html#Class_Loading_in_WildFly[jboss module].
-
-The following command downloads the PostgreSQL driver automatically through Maven. When needed, replace __{jbossHomeName}_1__ with the path to your server
+First of all, a JDBC driver needs to be installed. The following command downloads the PostgreSQL driver automatically through Maven. When needed, replace __{jbossHomeName}_1__ with the path to your server
 
 1. Open a new terminal, navigate to the root directory of this quickstart, and run the following command:
 [source,sh,subs="+quotes,attributes+",options="nowrap"]
@@ -233,7 +231,7 @@ The web page will also change and show you the new list of customers.
 
 NOTE: You can also verify the state of the JMS queue on application server 2 by using the management CLI. Connect to the second server's management interface and run:
 
-[source,options="nowrap"]
+[source, subs="attributes+", options="nowrap"]
 ----
 /deployment={artifactId}-application-component-2.war/subsystem=messaging-activemq/server=default/jms-queue=jts-quickstart:read-attribute(name=messages-added)
 ----
@@ -351,7 +349,7 @@ NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
 +
 [source,xml,subs="attributes+",options="nowrap"]
 ----
-<subsystem xmlns="{IiopOpenJdkSubsystemNamespace}">
+<subsystem xmlns="urn:jboss:domain:iiop-openjdk:3.0">
     <initializers transactions="spec" security="identity"/>
 </subsystem>
 ----
@@ -360,7 +358,7 @@ NOTE: For Windows, use the `__{jbossHomeName}_1__\bin\jboss-cli.bat` script.
 +
 [source,xml,subs="attributes+",options="nowrap"]
 ----
-<subsystem xmlns="{TransactionsSubsystemNamespace}">
+<subsystem xmlns="urn:jboss:domain:transactions:7.0">
     <core-environment>
         <process-id>
             <uuid/>

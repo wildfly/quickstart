@@ -39,13 +39,13 @@ import org.junit.Test;
 
 public class BasicRuntimeIT {
 
-    private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
+    private static final String DEFAULT_SERVER_HOST = "http://localhost";
+    private static final int DEFAULT_SERVER_PORT = 8080;
     private static final String APP_CONTEXT = "/jts-application-component-1";
-    private static final String DEFAULT_SERVER2_HOST = "http://localhost:8180";
 
     @Test
     public void testHTTPEndpointIsAvailable() throws IOException, InterruptedException, URISyntaxException {
-        String serverHost = getServerHost();
+        String serverHost = getServerHost(0);
         final HttpRequest request = HttpRequest.newBuilder()
                 .uri(new URI(serverHost + APP_CONTEXT + "/"))
                 .GET()
@@ -94,7 +94,7 @@ public class BasicRuntimeIT {
         assertMessagesStayAt(baselineMessages + 1, 10_000);
     }
 
-    private String getServerHost() {
+    private String getServerHost(int portOffset) {
         String host = System.getenv("SERVER_HOST");
         if (host == null) {
             host = System.getProperty("server.host");
@@ -102,18 +102,7 @@ public class BasicRuntimeIT {
         if (host == null) {
             host = DEFAULT_SERVER_HOST;
         }
-        return host;
-    }
-
-    private String getServer2Host() {
-        String host = System.getenv("SERVER2_HOST");
-        if (host == null) {
-            host = System.getProperty("server2.host");
-        }
-        if (host == null) {
-            host = DEFAULT_SERVER2_HOST;
-        }
-        return host;
+        return host + ":" + (DEFAULT_SERVER_PORT + portOffset);
     }
 
     private HttpClient createHttpClient() {
@@ -125,7 +114,7 @@ public class BasicRuntimeIT {
     }
 
     private HttpResponse<String> submitCustomerForm(HttpClient client, String name) throws IOException, InterruptedException, URISyntaxException {
-        String serverHost = getServerHost();
+        String serverHost = getServerHost(0);
         URI formUri = new URI(serverHost + APP_CONTEXT + "/addCustomer.jsf");
 
         HttpResponse<String> getResponse = client.send(
@@ -168,7 +157,7 @@ public class BasicRuntimeIT {
     }
 
     private long getMessagesReceived() throws IOException, InterruptedException {
-        String server2Host = getServer2Host();
+        String server2Host = getServerHost(100);
         HttpClient client = HttpClient.newBuilder()
                 .connectTimeout(Duration.ofMinutes(1))
                 .build();
