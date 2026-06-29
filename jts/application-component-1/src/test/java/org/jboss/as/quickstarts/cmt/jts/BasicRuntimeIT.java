@@ -94,15 +94,27 @@ public class BasicRuntimeIT {
         assertMessagesStayAt(baselineMessages + 1, 10_000);
     }
 
+    // SERVER_HOST is expected to include the port (e.g. http://localhost:8080).
+    // When portOffset is non-zero, the port is parsed and the offset is added
+    // (defaulting to 80 for http or 443 for https if no port is present).
     private String getServerHost(int portOffset) {
         String host = System.getenv("SERVER_HOST");
         if (host == null) {
             host = System.getProperty("server.host");
         }
         if (host == null) {
-            host = DEFAULT_SERVER_HOST;
+            host = DEFAULT_SERVER_HOST + ":" + (DEFAULT_SERVER_PORT + portOffset);
+        } else if (portOffset != 0) {
+            try {
+                URI uri = new URI(host);
+                int defaultPort = "https".equals(uri.getScheme()) ? 443 : 80;
+                int port = (uri.getPort() != -1 ? uri.getPort() : defaultPort) + portOffset;
+                host = uri.getScheme() + "://" + uri.getHost() + ":" + port;
+            } catch (URISyntaxException e) {
+                throw new RuntimeException(e);
+            }
         }
-        return host + ":" + (DEFAULT_SERVER_PORT + portOffset);
+        return host;
     }
 
     private HttpClient createHttpClient() {
