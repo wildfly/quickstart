@@ -1,0 +1,90 @@
+# Script to configure dynamic SSL context in the JBoss EAP server
+
+# Create the server's keystores
+/subsystem=elytron/key-store=twoWayKS1:add(path=server1.keystore.P12,relative-to=jboss.server.config.dir,credential-reference={clear-text=secret},type=PKCS12)
+/subsystem=elytron/key-store=twoWayKS2:add(path=server2.keystore.P12,relative-to=jboss.server.config.dir,credential-reference={clear-text=secret},type=PKCS12)
+
+# Generate new server's key pairs. We'll use an DSA key of size 1024 and we'll use CN=localhost1 and CN=localhost2
+/subsystem=elytron/key-store=twoWayKS1:generate-key-pair(alias=localhost1 , algorithm=DSA, key-size=1024, validity=365, credential-reference={clear-text=secret}, distinguished-name="cn=localhost1")
+/subsystem=elytron/key-store=twoWayKS2:generate-key-pair(alias=localhost2 , algorithm=DSA, key-size=1024, validity=365, credential-reference={clear-text=secret}, distinguished-name="cn=localhost2")
+
+# Export the server's certificates to files called localhost1Cert.crt and path=localhost2Cert.crt
+/subsystem=elytron/key-store=twoWayKS1:export-certificate(alias=localhost1, path=localhost1Cert.crt, relative-to=jboss.server.config.dir, pem=true)
+/subsystem=elytron/key-store=twoWayKS2:export-certificate(alias=localhost2, path=localhost2Cert.crt, relative-to=jboss.server.config.dir, pem=true)
+
+# Create the server's truststores
+/subsystem=elytron/key-store=twoWayTS1:add(path=server1.truststore.P12,relative-to=jboss.server.config.dir,credential-reference={clear-text=secret},type=PKCS12)
+/subsystem=elytron/key-store=twoWayTS2:add(path=server2.truststore.P12,relative-to=jboss.server.config.dir,credential-reference={clear-text=secret},type=PKCS12)
+
+# Set up the trust manager and keystore configuration for server's keystores
+/subsystem=elytron/key-manager=twoWayKM1:add(key-store=twoWayKS1,credential-reference={clear-text=secret})
+/subsystem=elytron/trust-manager=twoWayTM1:add(key-store=twoWayTS1)
+/subsystem=elytron/key-manager=twoWayKM2:add(key-store=twoWayKS2,credential-reference={clear-text=secret})
+/subsystem=elytron/trust-manager=twoWayTM2:add(key-store=twoWayTS2)
+
+# Create the server-ssl-context to reference the newly created trust-managers with required client auth option
+/subsystem=elytron/server-ssl-context=twoWaySSC1:add(key-manager=twoWayKM1,protocols=["TLSv1.2"],trust-manager=twoWayTM1,need-client-auth=true)
+/subsystem=elytron/server-ssl-context=twoWaySSC2:add(key-manager=twoWayKM2,protocols=["TLSv1.2"],trust-manager=twoWayTM2,need-client-auth=true)
+
+# Create the client's keystores
+/subsystem=elytron/key-store=clientKS1:add(path=client1.keystore.P12,relative-to=jboss.server.config.dir,credential-reference={clear-text=secret},type=PKCS12)
+/subsystem=elytron/key-store=clientTS2:add(path=client2.truststore.P12,relative-to=jboss.server.config.dir,credential-reference={clear-text=secret},type=PKCS12)
+
+# Create the client's truststores
+/subsystem=elytron/key-store=clientKS2:add(path=client2.keystore.P12,relative-to=jboss.server.config.dir,credential-reference={clear-text=secret},type=PKCS12)
+/subsystem=elytron/key-store=clientTS1:add(path=client1.truststore.P12,relative-to=jboss.server.config.dir,credential-reference={clear-text=secret},type=PKCS12)
+
+# Generate new client's key pairs. We'll use an DSA key of size 1024 and we'll use CN=client1 and  CN=client2
+/subsystem=elytron/key-store=clientKS1:generate-key-pair(alias=client1 , algorithm=DSA, key-size=1024, validity=365, credential-reference={clear-text=secret}, distinguished-name="cn=client1")
+/subsystem=elytron/key-store=clientKS2:generate-key-pair(alias=client2 , algorithm=DSA, key-size=1024, validity=365, credential-reference={clear-text=secret}, distinguished-name="cn=client2")
+
+# Export the client's certificates to files called client1Cert.crt and path=client2Cert.crt
+/subsystem=elytron/key-store=clientKS1:export-certificate(alias=client1, path=client1Cert.crt, relative-to=jboss.server.config.dir, pem=true)
+/subsystem=elytron/key-store=clientKS2:export-certificate(alias=client2, path=client2Cert.crt, relative-to=jboss.server.config.dir, pem=true)
+
+# Import the server's certificates into the client's truststores
+/subsystem=elytron/key-store=clientTS1:import-certificate(alias=localhost1, path=localhost1Cert.crt, relative-to=jboss.server.config.dir, credential-reference={clear-text=secret}, validate=false)
+/subsystem=elytron/key-store=clientTS2:import-certificate(alias=localhost2, path=localhost2Cert.crt, relative-to=jboss.server.config.dir, credential-reference={clear-text=secret}, validate=false)
+
+# Import the client's certificates into the server's truststores
+/subsystem=elytron/key-store=twoWayTS1:import-certificate(alias=client1, path=client1Cert.crt, relative-to=jboss.server.config.dir, credential-reference={clear-text=secret}, validate=false)
+/subsystem=elytron/key-store=twoWayTS2:import-certificate(alias=client2, path=client2Cert.crt, relative-to=jboss.server.config.dir, credential-reference={clear-text=secret}, validate=false)
+
+# Persist the changes
+/subsystem=elytron/key-store=twoWayKS1:store()
+/subsystem=elytron/key-store=twoWayKS2:store()
+/subsystem=elytron/key-store=twoWayTS1:store()
+/subsystem=elytron/key-store=twoWayTS2:store()
+/subsystem=elytron/key-store=clientKS1:store()
+/subsystem=elytron/key-store=clientKS2:store()
+/subsystem=elytron/key-store=clientTS1:store()
+/subsystem=elytron/key-store=clientTS2:store()
+
+# Set up the trust manager and keystore configuration for client's keystores
+/subsystem=elytron/key-manager=clientKM1:add(key-store=clientKS1,credential-reference={clear-text=secret})
+/subsystem=elytron/trust-manager=clientTM1:add(key-store=clientTS1)
+/subsystem=elytron/key-manager=clientKM2:add(key-store=clientKS2,credential-reference={clear-text=secret})
+/subsystem=elytron/trust-manager=clientTM2:add(key-store=clientTS2)
+
+# Create the client-ssl-context to reference the newly created trust-managers with required client auth option
+/subsystem=elytron/client-ssl-context=client1-ssl-context:add(key-manager=clientKM1,protocols=["TLSv1.2"],trust-manager=clientTM1)
+/subsystem=elytron/client-ssl-context=client2-ssl-context:add(key-manager=clientKM2,protocols=["TLSv1.2"],trust-manager=clientTM2)
+
+# Configure the "first" and "second" connections for the main server
+# Add the socket binding to the full-sockets, used by the app-main server
+/socket-binding-group=standard-sockets/socket-binding=first-socket-binding:add(port=9443)
+/socket-binding-group=standard-sockets/socket-binding=second-socket-binding:add(port=10443)
+
+# Add https listeners
+/subsystem=undertow/server=default-server/https-listener=first-listener:add(socket-binding=first-socket-binding,ssl-context=twoWaySSC1,enable-http2=true)
+/subsystem=undertow/server=default-server/https-listener=second-listener:add(socket-binding=second-socket-binding,ssl-context=twoWaySSC2,enable-http2=true)
+
+# Add the authentication authentication context
+/subsystem=elytron/authentication-context=a:add(match-rules=[{match-port=9443,ssl-context=client1-ssl-context},{match-port=10443,ssl-context=client2-ssl-context}])
+
+# Set up dynamic client SSL context to be a default SSL Context for the whole server
+/subsystem=elytron/dynamic-client-ssl-context=dynamicClientSSLContext:add(authentication-context=a)
+/subsystem=elytron:write-attribute(name=default-ssl-context,value=dynamicClientSSLContext)
+
+# Reload the server configuration
+reload

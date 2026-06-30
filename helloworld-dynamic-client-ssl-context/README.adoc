@@ -1,0 +1,424 @@
+ifdef::env-github[]
+:artifactId: helloworld-dynamic-client-ssl-context
+endif::[]
+
+//***********************************************************************************
+// Enable the following flag to build README.html files for JBoss EAP product builds.
+// Comment it out for WildFly builds.
+//***********************************************************************************
+//:ProductRelease:
+
+//***********************************************************************************
+// Enable the following flag to build README.html files for EAP XP product builds.
+// Comment it out for WildFly or JBoss EAP product builds.
+//***********************************************************************************
+//:EAPXPRelease:
+
+// This is a universal name for all releases
+:ProductShortName: JBoss EAP
+// Product names and links are dependent on whether it is a product release (CD or JBoss)
+// or the WildFly project.
+// The "DocInfo*" attributes are used to build the book links to the product documentation
+
+ifdef::ProductRelease[]
+// JBoss EAP release
+:productName: JBoss EAP
+:productNameFull: Red Hat JBoss Enterprise Application Platform
+:productVersion: 8.1
+:DocInfoProductNumber: {productVersion}
+:WildFlyQuickStartRepoTag: 8.1.x
+:helmChartName: jboss-eap/eap81
+endif::[]
+
+ifdef::EAPXPRelease[]
+// JBoss EAP XP release
+:productName: JBoss EAP XP
+:productNameFull: Red Hat JBoss Enterprise Application Platform expansion pack
+:productVersion: 6.0
+:WildFlyQuickStartRepoTag: XP_6.0.0.GA
+endif::[]
+
+ifdef::ProductRelease,EAPXPRelease[]
+:githubRepoUrl: https://github.com/jboss-developer/jboss-eap-quickstarts/
+:githubRepoCodeUrl: https://github.com/jboss-developer/jboss-eap-quickstarts.git
+:jbossHomeName: EAP_HOME
+:DocInfoProductName: Red Hat JBoss Enterprise Application Platform
+:DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
+:DocInfoPreviousProductName: jboss-enterprise-application-platform
+:quickstartDownloadName: {productNameFull} {productVersion} Quickstarts
+:quickstartDownloadUrl: https://access.redhat.com/jbossnetwork/restricted/listSoftware.html?product=appplatform&downloadType=distributions
+:helmRepoName: jboss-eap
+:helmRepoUrl: https://jbossas.github.io/eap-charts/
+// END ifdef::ProductRelease,EAPXPRelease[]
+endif::[]
+
+ifndef::ProductRelease,EAPXPRelease[]
+// WildFly project
+:productName: WildFly
+:productNameFull: WildFly Application Server
+:ProductShortName: {productName}
+:jbossHomeName: WILDFLY_HOME
+:productVersion: 39
+:githubRepoUrl: https://github.com/wildfly/quickstart/
+:githubRepoCodeUrl: https://github.com/wildfly/quickstart.git
+:WildFlyQuickStartRepoTag: 39.0.0.Final
+:DocInfoProductName: Red Hat JBoss Enterprise Application Platform
+:DocInfoProductNameURL: red_hat_jboss_enterprise_application_platform
+:DocInfoPreviousProductName: jboss-enterprise-application-platform
+:helmRepoName: wildfly
+:helmRepoUrl: http://docs.wildfly.org/wildfly-charts/
+:helmChartName: wildfly/wildfly
+// END ifndef::ProductRelease,EAPCDRelease,EAPXPRelease[]
+endif::[]
+
+:source: {githubRepoUrl}
+
+// Values for Openshift S2i sections attributes
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {EapForOpenshiftBookName} Online
+:xpaasproduct: {productNameFull} for OpenShift
+:xpaasproduct-shortname: {ProductShortName} for OpenShift
+:ContainerRegistryName: Red Hat Container Registry
+:EapForOpenshiftBookName: Getting Started with {ProductShortName} for OpenShift Container Platform
+:EapForOpenshiftOnlineBookName: Getting Started with {ProductShortName} for OpenShift Online
+:OpenShiftOnlinePlatformName: Red Hat OpenShift Container Platform
+:OpenShiftOnlineName: Red Hat OpenShift Online
+// Links to the OpenShift documentation
+:LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_container_platform/
+:LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/{DocInfoProductNameURL}/{DocInfoProductNumber}/html-single/getting_started_with_jboss_eap_for_openshift_online/
+
+ifdef::EAPXPRelease[]
+// Attributes for XP releases
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
+:xpaasproduct: {productNameFull} for OpenShift
+:ContainerRegistryName: Red Hat Container Registry
+:EapForOpenshiftBookName: {productNameFull} for OpenShift
+:EapForOpenshiftOnlineBookName: {productNameFull} for OpenShift Online
+// Links to the OpenShift documentation
+:LinkOpenShiftGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
+:LinkOpenShiftOnlineGuide: https://access.redhat.com/documentation/en-us/red_hat_jboss_enterprise_application_platform/{DocInfoProductNumber}/html/using_eclipse_microprofile_in_jboss_eap/using-the-openshift-image-for-jboss-eap-xp_default
+endif::[]
+
+//*************************
+// Other values
+//*************************
+:buildRequirements: Java SE 17.0 or later, and Maven 3.6.0 or later
+:javaVersion: Jakarta EE 10
+ifdef::EAPXPRelease[]
+:javaVersion: Eclipse MicroProfile
+endif::[]
+:guidesBaseUrl: https://github.com/jboss-developer/jboss-developer-shared-resources/blob/master/guides/
+:useEclipseUrl: {guidesBaseUrl}USE_JBDS.adoc#use_red_hat_jboss_developer_studio_or_eclipse_to_run_the_quickstarts
+:useEclipseDeployJavaClientDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_containing_server_and_java_client_projects
+:useEclipseDeployEARDocUrl: {guidesBaseUrl}USE_JBDS.adoc#deploy_and_undeploy_a_quickstart_ear_project
+:useProductHomeDocUrl: {guidesBaseUrl}USE_OF_{jbossHomeName}.adoc#use_of_product_home_and_jboss_home_variables
+:configureMavenDocUrl: {guidesBaseUrl}CONFIGURE_MAVEN_JBOSS_EAP.adoc#configure_maven_to_build_and_deploy_the_quickstarts
+:addUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#create_users_required_by_the_quickstarts
+:addApplicationUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#add_an_application_user
+:addManagementUserDocUrl: {guidesBaseUrl}CREATE_USERS.adoc#add_an_management_user
+:startServerDocUrl: {guidesBaseUrl}START_JBOSS_EAP.adoc#start_the_jboss_eap_server
+:configurePostgresDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#configure_the_postgresql_database_for_use_with_the_quickstarts
+:configurePostgresDownloadDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#download_and_install_postgresql
+:configurePostgresCreateUserDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#create_a_database_user
+:configurePostgresAddModuleDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#add_the_postgres_module_to_the_jboss_eap_server
+:configurePostgresDriverDocUrl: {guidesBaseUrl}CONFIGURE_POSTGRESQL_JBOSS_EAP.adoc#configure_the_postgresql_driver_in_the_jboss_eap_server
+:configureBytemanDownloadDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#download_and_configure_byteman
+:configureBytemanDisableDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#disable_the_byteman_script
+:configureBytemanClearDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#clear_the_transaction_object_store
+:configureBytemanQuickstartDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
+:configureBytemanHaltDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#use_byteman_to_halt_the_application[
+:configureBytemanQuickstartsDocUrl: {guidesBaseUrl}CONFIGURE_BYTEMAN.adoc#configure_byteman_for_use_with_the_quickstarts
+
+= helloworld-dynamic-client-ssl-context: Dynamic client SSL Context between Server and Client
+:author: Richard Záň
+:level: Intermidiate
+:technologies: Dynamic TLS, Security, Undertow
+
+[abstract]
+The helloworld-dynamic-client-ssl-context quickstart shows the option to select different SSL/TLS configurations dynamically based on the host and port of the outbound connection.
+
+:standalone-server-type: default
+:archiveType: war
+
+== What is it?
+
+Elytron client supports dynamic client SSL context. It can be configured everywhere in the subsystems similarly as client-ssl-context attribute.
+
+The `helloworld-dynamic-client-ssl-context` quickstart demonstrates enabled dynamic SSL context for specified URLs and their ports. The only function they represent is to be called via provided REST client and pass as successful call through the SSL/TLS configuration.
+
+This example consists of the following two URLs, each with enabled dynamic SSL context:
+
+[cols="100%",options="headers"]
+|===
+|URL paths with their ports
+
+|`https://localhost:9443/helloworld-dynamic-client-ssl-context/`
+
+|`https://localhost:10443/helloworld-dynamic-client-ssl-context/`
+
+|===
+
+The server configuration is done using CLI batch scripts located in the root of the quickstart folder.
+
+// Link to the quickstart source
+:leveloffset: +1
+
+ifndef::ProductRelease,EAPXPRelease[]
+link:https://github.com/wildfly/quickstart/tree/{WildFlyQuickStartRepoTag}/{artifactId}[Browse the source]
+endif::[]
+
+:leveloffset!:
+// System Requirements
+:leveloffset: +1
+
+[[system_requirements]]
+= System Requirements
+
+The application this project produces is designed to be run on {productNameFull} {productVersion} or later.
+
+All you need to build this project is {buildRequirements}. See link:{configureMavenDocUrl}[Configure Maven to Build and Deploy the Quickstarts] to make sure you are configured correctly for testing the quickstarts.
+
+:leveloffset!:
+// Use of {jbossHomeName}
+:leveloffset: +1
+
+ifdef::requires-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName}_1, {jbossHomeName}_2, and QUICKSTART_HOME Variables
+
+This quickstart requires that you clone your `__{jbossHomeName}__` installation directory and run two servers. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+In the following instructions, replace `__{jbossHomeName}_1__` with the path to your first {productName} server and replace `__{jbossHomeName}_2__` with the path to your second cloned {productName} server.
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+ifdef::optional-domain-or-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName}_1, {jbossHomeName}_2, and QUICKSTART_HOME Variables
+
+When deploying this quickstart to a managed domain, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+When deploying this quickstart to multiple standalone servers, this quickstart requires that you clone your `__{jbossHomeName}__` installation directory and run two servers. In the following instructions, replace `__{jbossHomeName}_1__` with the path to your first {productName} server and replace `__{jbossHomeName}_2__` with the path to your second cloned {productName} server.
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+ifndef::requires-multiple-servers,optional-domain-or-multiple-servers[]
+[[use_of_jboss_home_name]]
+= Use of the {jbossHomeName} and QUICKSTART_HOME Variables
+
+In the following instructions, replace `__{jbossHomeName}__` with the actual path to your {productName} installation. The installation path is described in detail here: link:{useProductHomeDocUrl}[Use of __{jbossHomeName}__ and __JBOSS_HOME__ Variables].
+
+When you see the replaceable variable __QUICKSTART_HOME__, replace it with the path to the root directory of all of the quickstarts.
+endif::[]
+
+:leveloffset!:
+
+[[start_with_a_clean_server_install]]
+== Start with a Clean Server Install
+
+It is important to start with a clean version of {productName} before testing this quickstart. Make sure you unzip or install a fresh {productName} instance.
+
+// Back Up the {productName} Managed Domain Configuration
+:leveloffset: +1
+
+[[back_up_standalone_server_configuration]]
+= Back Up the {productName} Standalone Server Configuration
+
+Before you begin, back up your server configuration file.
+
+. If it is running, stop the {productName} server.
+. Back up the `{jbossHomeName}/standalone/configuration/standalone.xml` file.
+
+After you have completed testing this quickstart, you can replace this file to restore the server to its original configuration.
+
+:leveloffset!:
+// Start the {productName} Managed Domain
+:leveloffset: +1
+
+[[start_the_eap_standalone_server]]
+= Start the {productName} Standalone Server
+
+. Open a terminal and navigate to the root of the {productName} directory.
+. Start the {productName} server with the {serverProfile} by typing the following command.
++
+[source,subs="+quotes,attributes+",options="nowrap"]
+----
+$ __{jbossHomeName}__/bin/standalone.sh
+----
++
+NOTE: For Windows, use the `__{jbossHomeName}__\bin\standalone.bat` script.
+
+
+:leveloffset!:
+
+// Build and Deploy the Quickstart
+:leveloffset: +1
+
+[[build_and_deploy_the_quickstart]]
+= Build and Deploy the Quickstart
+
+// The archive name defaults to the artifactId if not overridden
+ifndef::archiveName[]
+:archiveName: {artifactId}
+endif::archiveName[]
+
+// The archive type defaults to war if not overridden
+ifndef::archiveType[]
+:archiveType: war
+endif::archiveType[]
+
+// Define the archive file name as the concatenation of "archiveName" + "." + "archiveType+
+:archiveFileName: {archiveName}.{archiveType}
+
+// If they have not defined the target archive directory, make it the default for the archive type.
+ifndef::archiveDir[]
+
+ifeval::["{archiveType}"=="ear"]
+:archiveDir: {artifactId}/ear/target
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:archiveDir: {artifactId}/target
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:archiveDir: {artifactId}/target
+endif::[]
+
+endif::archiveDir[]
+
+ifndef::mavenCommand[]
+ifeval::["{archiveType}"=="ear"]
+:mavenCommand: clean install
+endif::[]
+
+ifeval::["{archiveType}"=="war"]
+:mavenCommand: clean package
+endif::[]
+
+ifeval::["{archiveType}"=="jar"]
+:mavenCommand: clean install
+endif::[]
+
+endif::mavenCommand[]
+
+. Make sure {productName} server is started.
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type the following command to build the quickstart.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn {mavenCommand}
+----
+
+. Type the following command to deploy the quickstart.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn wildfly:deploy
+----
+
+This deploys the `{archiveDir}/{archiveFileName}` to the running instance of the server.
+
+You should see a message in the server log indicating that the archive deployed successfully.
+
+:leveloffset!:
+
+[[review_the_modified_server_configuration]]
+== Review the Modified Server Configuration
+
+There are too many additions to the configuration file to list here. Feel free to compare the `standalone.xml` to the backup copy to see the changes made to configure the server to run this quickstart.
+
+[[access_the_application]]
+== Access the Application
+
+The application will be running at the following URL: https://localhost:8080/helloworld-dynamic-client-ssl-context
+
+A main page displays list of links:
+
+[source,options="nowrap"]
+----
+Click below to send request to different ports:
+
+Send request to port 9443
+Send request to port 10443
+----
+
+Each of links executes https GET request on server under specified ports. Each port uses a different TLS certificate. Both GET requests use the same dynamic client SSL context. For http://localhost:8080/helloworld-dynamic-client-ssl-context/rest/port9443request, it will display:
+
+[source,options="nowrap"]
+----
+HTTP status of result is 200
+----
+
+Similar result is for http://localhost:8080/helloworld-dynamic-client-ssl-context/rest/port10443request:
+
+[source,options="nowrap"]
+----
+HTTP status of result is 200
+----
+
+// Server Distribution Testing
+:integrationTestsDirectory: app-web/src/test/
+:leveloffset: +1
+
+[[run_the_integration_tests_with_server_distribution]]
+= Run the Integration Tests
+ifndef::integrationTestsDirectory[:integrationTestsDirectory: src/test/]
+ifndef::extraStandardDistTestParams[:extraStandardDistTestParams: ]
+
+This quickstart includes integration tests, which are located under the `{integrationTestsDirectory}` directory. The integration tests verify that the quickstart runs correctly when deployed on the server.
+
+Follow these steps to run the integration tests.
+
+. Make sure {productName} server is started.
+. Make sure the quickstart is deployed.
+. Type the following command to run the `verify` goal with the `integration-testing` profile activated.
++
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing {extraStandardDistTestParams}
+----
+
+:leveloffset!:
+
+// Undeploy the Quickstart
+:leveloffset: +1
+
+[[undeploy_the_quickstart]]
+= Undeploy the Quickstart
+
+When you are finished testing the quickstart, follow these steps to undeploy the archive.
+
+. Make sure {productName} server is started.
+. Open a terminal and navigate to the root directory of this quickstart.
+. Type this command to undeploy the archive:
++
+[source,options="nowrap"]
+----
+$ mvn wildfly:undeploy
+----
+
+:leveloffset!:
+
+// Restore the {productName} Managed Domain Configuration Manually
+:leveloffset: +1
+
+[[restore_standalone_server_configuration_manually]]
+= Restore the {productName} Standalone Server Configuration Manually
+
+When you have completed testing the quickstart, you can restore the original server configuration by manually restoring the backup copy the configuration file.
+
+. If it is running, stop the {productName} server.
+. Replace the `__{jbossHomeName}__/{configFileName}` file with the backup copy of the file.
+
+
+[[openshift_incompatibility]]
+= {xpaasproduct-shortname} Incompatibility
+
+This quickstart is not compatible with {xpaasproduct-shortname}.
+
+:leveloffset!:
