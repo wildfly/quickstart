@@ -198,8 +198,8 @@
                 <configuration>
                     <archive>
                         <manifestEntries>
-                            <!-- specifies that the deployment depends on server module com.h2database.h2 -->
-                            <Dependencies>com.h2database.h2</Dependencies>
+                            <!-- specifies that the deployment depends on server module org.postgresql -->
+                            <Dependencies>org.postgresql.jdbc</Dependencies>
                         </manifestEntries>
                     </archive>
                 </configuration>
@@ -222,9 +222,19 @@
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                                 <addOns>
-                                    <addOn>h2-database</addOn>
+                                    <addOn>postgresql</addOn>
                                 </addOns>
                             </discover-provisioning-info>
+                            <packaging-scripts>
+                                <packaging-script>
+                                    <commands>
+                                        <command>/subsystem=datasources/data-source=PostgreSQLDS:remove</command>
+                                        <command>xa-data-source add --name=JSR352_JobRepositoryDB --jndi-name=java:jboss/jsr352/jobrepositoryDB --driver-name=postgresql --user-name=batch_user --password=123 --enabled=true --xa-datasource-properties={"ServerName"=>"localhost","PortNumber"=>"5432","DatabaseName"=>"batch_db"}</command>
+                                        <command>/subsystem=batch-jberet/jdbc-job-repository=JSR352_JobRepository:add(data-source=JSR352_JobRepositoryDB)</command>
+                                        <command>/subsystem=batch-jberet/:write-attribute(name=default-job-repository,value=JSR352_JobRepository)</command>
+                                    </commands>
+                                </packaging-script>
+                            </packaging-scripts>
                         </configuration>
                         <executions>
                             <execution>
@@ -249,7 +259,7 @@
                                 <version>${version.server}</version>
                                 <context>cloud</context>
                                 <addOns>
-                                    <addOn>h2-database</addOn>
+                                    <addOn>postgresql:default</addOn>
                                 </addOns>
                             </discover-provisioning-info>
                         </configuration>

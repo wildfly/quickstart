@@ -23,10 +23,10 @@ import jakarta.persistence.Id;
 import jakarta.validation.constraints.NotNull;
 
 @DataSourceDefinition(name="java:jboss/datasources/batch-processingDS",
-        className="org.h2.jdbcx.JdbcDataSource",
-        url="jdbc:h2:mem:batch-processing;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1",
-        user="sa",
-        password="sa"
+        className="org.postgresql.ds.PGSimpleDataSource",
+        url="jdbc:postgresql://localhost:5432/batch_db",
+        user="batch_user",
+        password="123"
 )
 @Entity
 public class Contact {
