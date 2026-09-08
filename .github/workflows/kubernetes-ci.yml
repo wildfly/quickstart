@@ -128,8 +128,8 @@ jobs:
             echo "Skipping ${fileName} since it is excluded!"
             continue
           fi
-          if [ ! -f "./.github/workflows/quickstart_${fileName}_ci.yml" ]; then
-            echo "Skipping ${fileName} since it has no ./.github/workflows/quickstart_${fileName}_ci.yml!"
+          if [ ! -f "./${fileName}/.ci/test-quickstart.env" ] && [ ! -f "./${fileName}/.ci/test-quickstart.sh" ]; then
+            echo "Skipping ${fileName} since it has no .ci/test-quickstart.env or .ci/test-quickstart.sh!"
             continue
           fi
     
