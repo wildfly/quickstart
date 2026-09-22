@@ -1,0 +1,23 @@
+batch
+
+# Add a new token security realm to elytron for authentication using oauth2 introspection endpoint
+/subsystem=elytron/token-realm=jwt-realm:add(principal-claim="username", oauth2-introspection={client-id=app, client-secret=secret, introspection-url="http://localhost:8180/realms/jwt-realm/protocol/openid-connect/token/introspect"})
+
+/subsystem=elytron/simple-role-decoder=roles-attribute:add(attribute="Roles")
+
+# Add a new security domain, which uses the jwt security realm
+/subsystem=elytron/security-domain=jwt-domain:add(realms=[{realm=jwt-realm,role-decoder=roles-attribute}],permission-mapper=default-permission-mapper,default-realm=jwt-realm)
+
+# Create sasl authentication factory that uses SASL OAUTHBEARER
+/subsystem=elytron/sasl-authentication-factory=jwt-sasl-authentication:add(security-domain=jwt-domain, sasl-server-factory=configured,mechanism-configurations=[{mechanism-name="OAUTHBEARER",mechanism-realm-configurations=[{realm-name="jwt-realm"}]}])
+
+# Update remoting subsystem to use jwt-sasl-authentication created above
+/subsystem=remoting/http-connector=http-remoting-connector:write-attribute(name=sasl-authentication-factory,value=jwt-sasl-authentication)
+
+# Configure the EJB subsystem to use jwt-domain
+/subsystem=ejb3/application-security-domain=jwt-app-domain:add(security-domain=jwt-domain)
+
+run-batch
+
+reload
+
