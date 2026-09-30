@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.temperatureconverter;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.net.CookieManager;
 import java.net.CookiePolicy;
@@ -30,8 +30,8 @@ import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class TemperatureConverterIT {
 
@@ -46,7 +46,7 @@ public class TemperatureConverterIT {
         HttpResponse response = client.send(HttpRequest.newBuilder(new URI(BasicRuntimeIT.getServerHost()+"/temperature-converter/temperatureconvert.jsf")).GET().build(), HttpResponse.BodyHandlers.ofString());
         String body = response.body().toString();
         assertEquals(200, response.statusCode());
-        assertTrue(body, body.contains("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\""));
+        assertTrue(body.contains("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\""), body);
         int startIndex = body.indexOf("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\"") + 96;
         int endIndex= body.indexOf('"', startIndex);
         String viewState = body.substring(startIndex, endIndex);
@@ -65,7 +65,7 @@ public class TemperatureConverterIT {
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
         assertEquals(200, response.statusCode());
         body = response.body().toString();
-        assertTrue(body, body.contains("212 ℉"));
+        assertTrue(body.contains("212 ℉"), body);
     }
 
     public static BodyPublisher ofFormData(Map<String, String> data) {

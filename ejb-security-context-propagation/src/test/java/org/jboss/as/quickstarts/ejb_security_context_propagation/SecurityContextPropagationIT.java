@@ -15,7 +15,7 @@
  */
 package org.jboss.as.quickstarts.ejb_security_context_propagation;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.wildfly.security.auth.client.AuthenticationConfiguration;
 import org.wildfly.security.auth.client.AuthenticationContext;
 import org.wildfly.security.auth.client.MatchRule;

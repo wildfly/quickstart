@@ -15,7 +15,7 @@
  */
 package org.wildfly.quickstarts.opentelemetry;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.io.IOException;
 import java.net.URI;
@@ -24,7 +24,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class OpenTelemetryIT {
     @Test

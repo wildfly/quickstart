@@ -15,8 +15,8 @@
  */
 package org.jboss.as.quickstart.http_custom_mechanism;
 
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URI;
@@ -27,7 +27,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.logging.Logger;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * The very basic runtime integration testing.
@@ -39,7 +39,7 @@ public class BasicRuntimeIT {
     private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
     private String serverHost;
 
-    @Before
+    @BeforeEach
     public void setUp() {
         serverHost = System.getenv("SERVER_HOST");
         if (serverHost == null) {
