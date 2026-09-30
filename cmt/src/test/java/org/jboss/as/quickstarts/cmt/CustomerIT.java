@@ -31,8 +31,8 @@ import java.net.http.HttpRequest.BodyPublishers;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 
 public class CustomerIT {
@@ -74,8 +74,8 @@ public class CustomerIT {
                 .build();
         HttpResponse response = client.send(HttpRequest.newBuilder(getHTTPEndpoint("/addCustomer.jsf")).GET().build(), HttpResponse.BodyHandlers.ofString());
         String body = response.body().toString();
-        Assert.assertEquals(200, response.statusCode());
-        Assert.assertTrue(body, body.contains("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\""));
+        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertTrue(body.contains("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\""), body);
         int startIndex = body.indexOf("<input type=\"hidden\" name=\"jakarta.faces.ViewState\" id=\"j_id1:jakarta.faces.ViewState:0\" value=\"") + 96;
         int endIndex= body.indexOf('"', startIndex);
         String viewState = body.substring(startIndex, endIndex);
@@ -91,9 +91,9 @@ public class CustomerIT {
                         )
                 .build();
         response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        Assert.assertEquals(200, response.statusCode());
+        Assertions.assertEquals(200, response.statusCode());
         body = response.body().toString();
-        Assert.assertTrue(body, body.contains(name));
+        Assertions.assertTrue(body.contains(name), body);
     }
 
     public static BodyPublisher ofFormData(Map<String, String> data) {

@@ -18,8 +18,8 @@
 
 package org.wildfly.quickstarts.mpjwt;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.wildfly.quickstarts.mpjwt.TestUtils.HELLO_WORLD;
 import static org.wildfly.quickstarts.mpjwt.TestUtils.ROOT_PATH;
 import static org.wildfly.quickstarts.mpjwt.TestUtils.getServerHost;
@@ -29,7 +29,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.util.EntityUtils;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 
 /**
@@ -63,9 +63,9 @@ public class JWTClientIT {
         HttpGet httpGet = new HttpGet(getServerHost() + ROOT_PATH + HELLO_WORLD);
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 
-        assertEquals("Successful call", 200, httpResponse.getStatusLine().getStatusCode());
+        assertEquals(200, httpResponse.getStatusLine().getStatusCode(), "Successful call");
         String body = EntityUtils.toString(httpResponse.getEntity());
-        assertTrue("Call was anonymous", body.contains(ANONYMOUS));
+        assertTrue(body.contains(ANONYMOUS), "Call was anonymous");
 
         httpResponse.close();
     }
@@ -79,9 +79,9 @@ public class JWTClientIT {
 
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 
-        assertEquals("Successful call", 200, httpResponse.getStatusLine().getStatusCode());
+        assertEquals(200, httpResponse.getStatusLine().getStatusCode(), "Successful call");
         String body = EntityUtils.toString(httpResponse.getEntity());
-        assertTrue("Call was authenticated", body.contains(PRINCIPAL_NAME));
+        assertTrue(body.contains(PRINCIPAL_NAME), "Call was authenticated");
 
         httpResponse.close();
     }
@@ -91,7 +91,7 @@ public class JWTClientIT {
         HttpGet httpGet = new HttpGet(getServerHost() + ROOT_PATH + SUBSCRIPTION);
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 
-        assertEquals("Authorization required", 403, httpResponse.getStatusLine().getStatusCode());
+        assertEquals(403, httpResponse.getStatusLine().getStatusCode(), "Authorization required");
 
         httpResponse.close();
     }
@@ -105,9 +105,9 @@ public class JWTClientIT {
 
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 
-        assertEquals("Successful call", 200, httpResponse.getStatusLine().getStatusCode());
+        assertEquals(200, httpResponse.getStatusLine().getStatusCode(), "Successful call");
         String body = EntityUtils.toString(httpResponse.getEntity());
-        assertTrue("Call was authenticated", body.contains(PRINCIPAL_NAME));
+        assertTrue(body.contains(PRINCIPAL_NAME), "Call was authenticated");
 
         httpResponse.close();
     }
@@ -121,7 +121,7 @@ public class JWTClientIT {
 
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 
-        assertEquals("Authorization Required", 403, httpResponse.getStatusLine().getStatusCode());
+        assertEquals(403, httpResponse.getStatusLine().getStatusCode(), "Authorization Required");
 
         httpResponse.close();
     }
@@ -135,10 +135,10 @@ public class JWTClientIT {
 
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 
-        assertEquals("Successful call", 200, httpResponse.getStatusLine().getStatusCode());
+        assertEquals(200, httpResponse.getStatusLine().getStatusCode(), "Successful call");
         String body = EntityUtils.toString(httpResponse.getEntity());
-        assertTrue("Call was authenticated", body.contains("Happy Birthday") ||
-                body.contains("days until your next birthday"));
+        assertTrue(body.contains("Happy Birthday") ||
+                body.contains("days until your next birthday"), "Call was authenticated");
 
         httpResponse.close();
     }

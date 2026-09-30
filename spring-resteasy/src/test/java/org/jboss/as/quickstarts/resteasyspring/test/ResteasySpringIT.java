@@ -30,9 +30,9 @@ import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.util.EntityUtils;
-import org.junit.Assert;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Basic unit tests for resteasy spring integration
@@ -44,7 +44,7 @@ public class ResteasySpringIT {
 
     private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";
 
-    @BeforeClass
+    @BeforeAll
     public static void setupUrl() throws MalformedURLException {
         String serverHost = System.getenv("SERVER_HOST");
         if (serverHost == null) {
@@ -69,8 +69,8 @@ public class ResteasySpringIT {
                         .build();
                 HttpGet method = new HttpGet(uri);
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-                    Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("JBoss Developer"));
+                    Assertions.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+                    Assertions.assertTrue(EntityUtils.toString(response.getEntity()).contains("JBoss Developer"));
                 } finally {
                     method.releaseConnection();
                 }
@@ -78,8 +78,8 @@ public class ResteasySpringIT {
             {
                 HttpGet method = new HttpGet(url.toString() + "/spring-resteasy/basic");
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-                    Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("basic"));
+                    Assertions.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+                    Assertions.assertTrue(EntityUtils.toString(response.getEntity()).contains("basic"));
                 } finally {
                     method.releaseConnection();
                 }
@@ -88,7 +88,7 @@ public class ResteasySpringIT {
                 HttpPut method = new HttpPut(url.toString() + "/spring-resteasy/basic");
                 method.setEntity(new StringEntity("basic", ContentType.TEXT_PLAIN));
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_NO_CONTENT, response.getStatusLine().getStatusCode());
+                    Assertions.assertEquals(HttpStatus.SC_NO_CONTENT, response.getStatusLine().getStatusCode());
                 } finally {
                     method.releaseConnection();
                 }
@@ -103,8 +103,8 @@ public class ResteasySpringIT {
                         .build();
                 HttpGet method = new HttpGet(uri);
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-                    Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("hello world"));
+                    Assertions.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+                    Assertions.assertTrue(EntityUtils.toString(response.getEntity()).contains("hello world"));
                 } finally {
                     method.releaseConnection();
                 }
@@ -112,8 +112,8 @@ public class ResteasySpringIT {
             {
                 HttpGet method = new HttpGet(url.toString() + "/spring-resteasy/matrixParam;param=matrix");
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-                    Assert.assertEquals("matrix", EntityUtils.toString(response.getEntity()));
+                    Assertions.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+                    Assertions.assertEquals("matrix", EntityUtils.toString(response.getEntity()));
                 } finally {
                     method.releaseConnection();
                 }
@@ -121,8 +121,8 @@ public class ResteasySpringIT {
             {
                 HttpGet method = new HttpGet(url.toString() + "/spring-resteasy/uriParam/1234");
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-                    Assert.assertEquals("1234", EntityUtils.toString(response.getEntity()));
+                    Assertions.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+                    Assertions.assertEquals("1234", EntityUtils.toString(response.getEntity()));
                 } finally {
                     method.releaseConnection();
                 }
@@ -143,8 +143,8 @@ public class ResteasySpringIT {
                         .build();
                 HttpGet method = new HttpGet(uri);
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-                    Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("JBoss Developer"));
+                    Assertions.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+                    Assertions.assertTrue(EntityUtils.toString(response.getEntity()).contains("JBoss Developer"));
                 } finally {
                     method.releaseConnection();
                 }
@@ -152,8 +152,8 @@ public class ResteasySpringIT {
             {
                 HttpGet method = new HttpGet(url.toString() + "/spring-resteasy/locating/basic");
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-                    Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("basic"));
+                    Assertions.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+                    Assertions.assertTrue(EntityUtils.toString(response.getEntity()).contains("basic"));
                 } finally {
                     method.releaseConnection();
                 }
@@ -162,7 +162,7 @@ public class ResteasySpringIT {
                 HttpPut method = new HttpPut(url.toString() + "/spring-resteasy/locating/basic");
                 method.setEntity(new StringEntity("basic", ContentType.TEXT_PLAIN));
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_NO_CONTENT, response.getStatusLine().getStatusCode());
+                    Assertions.assertEquals(HttpStatus.SC_NO_CONTENT, response.getStatusLine().getStatusCode());
                 } finally {
                     method.releaseConnection();
                 }
@@ -177,8 +177,8 @@ public class ResteasySpringIT {
                         .build();
                 HttpGet method = new HttpGet(uri);
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-                    Assert.assertTrue(EntityUtils.toString(response.getEntity()).contains("hello world"));
+                    Assertions.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+                    Assertions.assertTrue(EntityUtils.toString(response.getEntity()).contains("hello world"));
                 } finally {
                     method.releaseConnection();
                 }
@@ -186,8 +186,8 @@ public class ResteasySpringIT {
             {
                 HttpGet method = new HttpGet(url.toString() + "/spring-resteasy/locating/matrixParam;param=matrix");
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-                    Assert.assertEquals("matrix", EntityUtils.toString(response.getEntity()));
+                    Assertions.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+                    Assertions.assertEquals("matrix", EntityUtils.toString(response.getEntity()));
                 } finally {
                     method.releaseConnection();
                 }
@@ -195,8 +195,8 @@ public class ResteasySpringIT {
             {
                 HttpGet method = new HttpGet(url.toString() + "/spring-resteasy/locating/uriParam/1234");
                 try (CloseableHttpResponse response = client.execute(method)) {
-                    Assert.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
-                    Assert.assertEquals("1234", EntityUtils.toString(response.getEntity()));
+                    Assertions.assertEquals(HttpStatus.SC_OK, response.getStatusLine().getStatusCode());
+                    Assertions.assertEquals("1234", EntityUtils.toString(response.getEntity()));
                 } finally {
                     method.releaseConnection();
                 }

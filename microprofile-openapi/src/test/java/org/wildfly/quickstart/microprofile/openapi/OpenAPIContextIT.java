@@ -4,8 +4,8 @@
  */
 package org.wildfly.quickstart.microprofile.openapi;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.net.URI;
@@ -16,7 +16,7 @@ import java.net.http.HttpResponse;
 import java.time.Duration;
 import java.util.Arrays;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests that the /openapi context is available.
@@ -46,10 +46,10 @@ public class OpenAPIContextIT {
                 .connectTimeout(Duration.ofMinutes(1))
                 .build();
         final HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals("/openapi context is not available", 200, response.statusCode());
+        assertEquals(200, response.statusCode(), "/openapi context is not available");
 
         String[] bodyLines = response.body().split("\n");
-        assertTrue("Document does not contain \"openapi:\" field", Arrays.stream(bodyLines).anyMatch(line -> line.startsWith("openapi:")));
+        assertTrue(Arrays.stream(bodyLines).anyMatch(line -> line.startsWith("openapi:")), "Document does not contain \"openapi:\" field");
     }
 
 }

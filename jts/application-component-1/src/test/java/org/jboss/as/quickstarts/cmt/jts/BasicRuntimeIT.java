@@ -15,8 +15,8 @@
  */
 package org.jboss.as.quickstarts.cmt.jts;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.IOException;
 import java.net.CookieManager;
@@ -35,7 +35,7 @@ import java.util.Map;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 public class BasicRuntimeIT {
 
@@ -136,7 +136,7 @@ public class BasicRuntimeIT {
         String body = getResponse.body();
         // JSF requires the ViewState token from the hidden form field to accept a POST submission
         Matcher viewStateMatcher = Pattern.compile("name=\"jakarta\\.faces\\.ViewState\"[^>]*value=\"([^\"]+)\"").matcher(body);
-        assertTrue("ViewState not found in response", viewStateMatcher.find());
+        assertTrue(viewStateMatcher.find(), "ViewState not found in response");
         String viewState = viewStateMatcher.group(1);
 
         HttpRequest postRequest = HttpRequest.newBuilder(formUri)
@@ -156,8 +156,7 @@ public class BasicRuntimeIT {
             if (getMessagesReceived() == expected) return;
             Thread.sleep(500);
         }
-        assertEquals("Timed out waiting for messages received to reach " + expected,
-                expected, getMessagesReceived());
+        assertEquals(expected, getMessagesReceived(), "Timed out waiting for messages received to reach " + expected);
     }
 
     private void assertMessagesStayAt(long expected, long durationMs) throws IOException, InterruptedException {
@@ -178,8 +177,7 @@ public class BasicRuntimeIT {
                 .GET()
                 .build();
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        assertEquals("Message count request failed with status " + response.statusCode(),
-                200, response.statusCode());
+        assertEquals(200, response.statusCode(), "Message count request failed with status " + response.statusCode());
         return Long.parseLong(response.body().trim());
     }
 

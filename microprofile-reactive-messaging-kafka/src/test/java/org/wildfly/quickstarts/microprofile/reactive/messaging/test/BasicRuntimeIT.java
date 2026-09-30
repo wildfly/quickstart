@@ -4,11 +4,11 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.wildfly.quickstarts.microprofile.reactive.messaging.test.TestUtils.getServerHost;
 
 public class BasicRuntimeIT {
@@ -19,7 +19,7 @@ public class BasicRuntimeIT {
         HttpGet httpGet = new HttpGet(getServerHost());
         CloseableHttpResponse httpResponse = httpClient.execute(httpGet);
 
-        assertEquals("Successful call", 200, httpResponse.getStatusLine().getStatusCode());
+        assertEquals(200, httpResponse.getStatusLine().getStatusCode(), "Successful call");
 
         httpResponse.close();
 

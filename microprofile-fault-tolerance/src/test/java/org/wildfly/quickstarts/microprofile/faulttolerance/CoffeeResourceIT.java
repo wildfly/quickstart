@@ -28,10 +28,10 @@ import jakarta.ws.rs.core.Response;
 import org.jboss.resteasy.plugins.providers.RegisterBuiltin;
 import org.jboss.resteasy.plugins.providers.jackson.ResteasyJackson2Provider;
 import org.jboss.resteasy.spi.ResteasyProviderFactory;
-import org.junit.After;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 /**
  * Simple integration test for Coffee resource that is guarded by MicroProfile Fault Tolerance annotations.
@@ -50,12 +50,12 @@ public class CoffeeResourceIT {
         instance.registerProvider(ResteasyJackson2Provider.class);
     }
 
-    @Before
+    @BeforeEach
     public void before() {
         client = ClientBuilder.newClient();
     }
 
-    @After
+    @AfterEach
     public void after() {
         client.close();
     }
@@ -66,11 +66,11 @@ public class CoffeeResourceIT {
         this.resetCounter();
 
         try (Response response = this.getResponse("/coffee")) {
-            Assert.assertEquals(200, response.getStatus());
+            Assertions.assertEquals(200, response.getStatus());
 
             List<Coffee> entity = response.readEntity(new GenericType<List<Coffee>>() {});
-            Assert.assertNotNull(entity);
-            Assert.assertEquals(3, entity.size());
+            Assertions.assertNotNull(entity);
+            Assertions.assertEquals(3, entity.size());
         }
     }
 
@@ -80,10 +80,10 @@ public class CoffeeResourceIT {
         this.resetCounter();
 
         try (Response response = this.getResponse("/coffee")) {
-            Assert.assertEquals(500, response.getStatus());
+            Assertions.assertEquals(500, response.getStatus());
         }
 
-        Assert.assertEquals(5, this.getCounter());
+        Assertions.assertEquals(5, this.getCounter());
     }
 
     @Test
@@ -91,11 +91,11 @@ public class CoffeeResourceIT {
         this.setFailRatio(0f);
 
         try (Response response = this.getResponse("/coffee/1")) {
-            Assert.assertEquals(200, response.getStatus());
+            Assertions.assertEquals(200, response.getStatus());
 
             Coffee entity = response.readEntity(new GenericType<Coffee>() {});
-            Assert.assertNotNull(entity);
-            Assert.assertEquals("Colombia", entity.countryOfOrigin);
+            Assertions.assertNotNull(entity);
+            Assertions.assertEquals("Colombia", entity.countryOfOrigin);
         }
     }
 
@@ -104,26 +104,26 @@ public class CoffeeResourceIT {
         this.setFailRatio(1f);
 
         try (Response response = this.getResponse("/coffee/1")) {
-            Assert.assertEquals(500, response.getStatus());
+            Assertions.assertEquals(500, response.getStatus());
         }
     }
 
     private long getCounter() {
         try (Response response = this.getResponse("/coffee/getCounter")) {
-            Assert.assertEquals(200, response.getStatus());
+            Assertions.assertEquals(200, response.getStatus());
             return response.readEntity(Long.class);
         }
     }
 
     private void setFailRatio(float failRatio) {
         try (Response response = this.getResponse("/coffee/setFailRatio/" + failRatio)) {
-            Assert.assertEquals(204, response.getStatus());
+            Assertions.assertEquals(204, response.getStatus());
         }
     }
 
     private void resetCounter() {
         try (Response response = this.getResponse("/coffee/resetCounter")) {
-            Assert.assertEquals(204, response.getStatus());
+            Assertions.assertEquals(204, response.getStatus());
         }
     }
 
@@ -138,12 +138,12 @@ public class CoffeeResourceIT {
         setMaxDelay(250);
 
         try (Response response = this.getResponse("/coffee/1/recommendations")) {
-            Assert.assertEquals(200, response.getStatus());
+            Assertions.assertEquals(200, response.getStatus());
             ArrayList<Coffee> ordersList = response.readEntity(new GenericType<ArrayList<Coffee>>() {});
-            Assert.assertNotNull(ordersList);
-            Assert.assertEquals(2, ordersList.size());
-            Assert.assertNotEquals(1, ordersList.get(0).getId());
-            Assert.assertNotEquals(1, ordersList.get(1).getId());
+            Assertions.assertNotNull(ordersList);
+            Assertions.assertEquals(2, ordersList.size());
+            Assertions.assertNotEquals(1, ordersList.get(0).getId());
+            Assertions.assertNotEquals(1, ordersList.get(1).getId());
         }
     }
 
@@ -158,24 +158,24 @@ public class CoffeeResourceIT {
         setMaxDelay(500);
 
         try (Response response = this.getResponse("/coffee/1/recommendations")) {
-            Assert.assertEquals(200, response.getStatus());
+            Assertions.assertEquals(200, response.getStatus());
 
             ArrayList<Coffee> ordersList = response.readEntity(new GenericType<ArrayList<Coffee>>() {});
-            Assert.assertNotNull(ordersList);
-            Assert.assertEquals(1, ordersList.size());
-            Assert.assertEquals(1, ordersList.get(0).getId());
+            Assertions.assertNotNull(ordersList);
+            Assertions.assertEquals(1, ordersList.size());
+            Assertions.assertEquals(1, ordersList.get(0).getId());
         }
     }
 
     private void setMaxDelay(int maxDelay) {
         try (Response response = this.getResponse("/coffee/setMaxDelay/" + maxDelay)) {
-            Assert.assertEquals(204, response.getStatus());
+            Assertions.assertEquals(204, response.getStatus());
         }
     }
 
     private void setMinDelay(int minDelay) {
         try (Response response = this.getResponse("/coffee/setMinDelay/" + minDelay)) {
-            Assert.assertEquals(204, response.getStatus());
+            Assertions.assertEquals(204, response.getStatus());
         }
     }
 
