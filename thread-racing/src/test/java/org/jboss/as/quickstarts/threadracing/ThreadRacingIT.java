@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.threadracing;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 
@@ -27,9 +27,9 @@ import java.net.http.WebSocket;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 /**
  * The thread racing runtime integration testing.
@@ -76,16 +76,16 @@ public class ThreadRacingIT {
                 .newWebSocketBuilder()
                 .buildAsync(getWebSocketEndpoint(), listener)
                 .join();
-        assertTrue("Connection should be opened", listener.isConnected());
+        assertTrue(listener.isConnected(), "Connection should be opened");
         while (notFinished) {
             webSocket.request(1);
         }
         webSocket.sendClose(WebSocket.NORMAL_CLOSURE, "Done");
         webSocket.request(1);
-        assertTrue("Connection should be closed", webSocket.isOutputClosed());
-        assertFalse("Connection should be closed", listener.isConnected());
+        assertTrue(webSocket.isOutputClosed(), "Connection should be closed");
+        assertFalse(listener.isConnected(), "Connection should be closed");
         webSocket.abort();
-        assertTrue("Connection should be closed", webSocket.isInputClosed());
+        assertTrue(webSocket.isInputClosed(), "Connection should be closed");
         String[] result = messages.toArray(new String[0]);
         assertEquals("<br/>Please await() the official results ", result[messages.size() - 6]);
     }

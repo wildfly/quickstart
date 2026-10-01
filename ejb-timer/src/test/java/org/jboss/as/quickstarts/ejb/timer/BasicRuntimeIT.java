@@ -15,7 +15,7 @@
  */
 package org.jboss.as.quickstarts.ejb.timer;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.net.URI;
@@ -25,7 +25,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.time.Duration;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class BasicRuntimeIT {
     private static final String DEFAULT_SERVER_HOST = "http://localhost:8080";

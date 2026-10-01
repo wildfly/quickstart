@@ -17,8 +17,8 @@ package org.jboss.as.quickstarts.ejb.remote;
 
 import org.jboss.as.quickstarts.ejb.remote.stateful.RemoteCounter;
 import org.jboss.as.quickstarts.ejb.remote.stateless.RemoteCalculator;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
@@ -75,7 +75,7 @@ public class EJBRemoteIT {
         System.out.println("Adding " + a + " and " + b + " via the remote stateless calculator deployed on the server");
         int sum = statelessRemoteCalculator.add(a, b);
         System.out.println("Remote calculator returned sum = " + sum);
-        Assert.assertEquals("Unexpected remote stateless calculator sum", (a + b), sum);
+        Assertions.assertEquals((a + b), sum, "Unexpected remote stateless calculator sum");
         // try one more invocation, this time for subtraction
         int num1 = 3434;
         int num2 = 2332;
@@ -83,7 +83,7 @@ public class EJBRemoteIT {
                 + " via the remote stateless calculator deployed on the server");
         int difference = statelessRemoteCalculator.subtract(num1, num2);
         System.out.println("Remote calculator returned difference = " + difference);
-        Assert.assertEquals("Unexpected remote stateless calculator difference", (num1 - num2), difference);
+        Assertions.assertEquals((num1 - num2), difference, "Unexpected remote stateless calculator difference");
         context.close();
     }
 
@@ -121,7 +121,7 @@ public class EJBRemoteIT {
             statefulRemoteCounter.increment();
             System.out.println("Count after increment is " + statefulRemoteCounter.getCount());
         }
-        Assert.assertEquals("Unexpected remote stateful counter value after increments", NUM_TIMES, statefulRemoteCounter.getCount());
+        Assertions.assertEquals(NUM_TIMES, statefulRemoteCounter.getCount(), "Unexpected remote stateful counter value after increments");
         // now decrementing
         System.out.println("Counter will now be decremented " + NUM_TIMES + " times");
         for (int i = NUM_TIMES; i > 0; i--) {
@@ -129,7 +129,7 @@ public class EJBRemoteIT {
             statefulRemoteCounter.decrement();
             System.out.println("Count after decrement is " + statefulRemoteCounter.getCount());
         }
-        Assert.assertEquals("Unexpected remote stateful counter value after decrements", 0, statefulRemoteCounter.getCount());
+        Assertions.assertEquals(0, statefulRemoteCounter.getCount(), "Unexpected remote stateful counter value after decrements");
         context.close();
     }
 }

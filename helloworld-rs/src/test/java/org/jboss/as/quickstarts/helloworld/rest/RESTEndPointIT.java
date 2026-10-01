@@ -7,11 +7,11 @@ package org.jboss.as.quickstarts.helloworld.rest;
 import jakarta.ws.rs.client.Client;
 import jakarta.ws.rs.client.ClientBuilder;
 import jakarta.ws.rs.core.MediaType;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * The very basic runtime integration testing for a rest endpoint.
@@ -33,12 +33,12 @@ public class RESTEndPointIT {
         return serverHost;
     }
 
-    @Before
+    @BeforeEach
     public void before() {
         client = ClientBuilder.newClient();
     }
 
-    @After
+    @AfterEach
     public void after() {
         client.close();
     }

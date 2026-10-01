@@ -8,9 +8,9 @@ import org.htmlunit.html.HtmlInput;
 import org.htmlunit.html.HtmlPage;
 import org.htmlunit.html.HtmlSubmitInput;
 import org.htmlunit.html.HtmlTextArea;
-import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class MailTestCaseIT {
 
@@ -18,7 +18,7 @@ public class MailTestCaseIT {
 
     private String serverHost;
 
-    @Before
+    @BeforeEach
     public void testSetup() {
         serverHost = System.getenv("SERVER_HOST");
         if (serverHost == null) {
@@ -61,7 +61,7 @@ public class MailTestCaseIT {
         webClient.waitForBackgroundJavaScript(30 * 1000);
 
         HtmlElement message = mailHomePage.getFirstByXPath("//ul[@id='smtp_messages']/li");
-        Assert.assertEquals("Unexpected result messages after sending an email via SMTP.", "Email sent to user02@mail.local", message.asNormalizedText());
+        Assertions.assertEquals("Email sent to user02@mail.local", message.asNormalizedText(), "Unexpected result messages after sending an email via SMTP.");
     }
 
     private void retrieveEmailByPOP3(WebClient webClient, HtmlPage mailHomePage) throws IOException {
@@ -76,9 +76,9 @@ public class MailTestCaseIT {
         webClient.waitForBackgroundJavaScript(30 * 1000);
         HtmlTextArea emails = mailHomePage.getHtmlElementById("pop3_emails");
 
-        Assert.assertTrue("Expected From not found: " + emails.getText(), emails.getText().contains("From : user01@mail.local"));
-        Assert.assertTrue("Expected Subject not found: " + emails.getText(), emails.getText().contains("Subject : This is a test"));
-        Assert.assertTrue("Expected Body not found : " + emails.getText(), emails.getText().contains("Body : Hello user02, I've sent an email."));
+        Assertions.assertTrue(emails.getText().contains("From : user01@mail.local"), "Expected From not found: " + emails.getText());
+        Assertions.assertTrue(emails.getText().contains("Subject : This is a test"), "Expected Subject not found: " + emails.getText());
+        Assertions.assertTrue(emails.getText().contains("Body : Hello user02, I've sent an email."), "Expected Body not found : " + emails.getText());
     }
 
     private void retrieveEmailByIMAP(WebClient webClient, HtmlPage mailHomePage) throws IOException {
@@ -88,9 +88,9 @@ public class MailTestCaseIT {
         webClient.waitForBackgroundJavaScript(30 * 1000);
         HtmlTextArea emails = mailHomePage.getHtmlElementById("imap_emails");
 
-        Assert.assertNotNull("IMAP No messages found.", emails.getText());
-        Assert.assertTrue("Expected From not found: " + emails.getText(), emails.getText().contains("From : user01@mail.local"));
-        Assert.assertTrue("Expected Subject not found: " + emails.getText(), emails.getText().contains("Subject : This is a test"));
-        Assert.assertTrue("Expected Body not found : " + emails.getText(), emails.getText().contains("Body : Hello user02, I've sent an email."));
+        Assertions.assertNotNull(emails.getText(), "IMAP No messages found.");
+        Assertions.assertTrue(emails.getText().contains("From : user01@mail.local"), "Expected From not found: " + emails.getText());
+        Assertions.assertTrue(emails.getText().contains("Subject : This is a test"), "Expected Subject not found: " + emails.getText());
+        Assertions.assertTrue(emails.getText().contains("Body : Hello user02, I've sent an email."), "Expected Body not found : " + emails.getText());
     }
 }

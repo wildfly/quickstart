@@ -19,8 +19,8 @@ package org.jboss.as.quickstarts.kitchensink.test;
 import jakarta.json.Json;
 import jakarta.json.JsonObject;
 import org.jboss.as.quickstarts.kitchensink.model.Member;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -53,7 +53,7 @@ public class MemberRegistrationIT {
                 .POST(HttpRequest.BodyPublishers.ofString(json.toString()))
                 .build();
         HttpResponse response = HttpClient.newHttpClient().send(request, HttpResponse.BodyHandlers.ofString());
-        Assert.assertEquals(200, response.statusCode());
-        Assert.assertEquals("", response.body().toString() );
+        Assertions.assertEquals(200, response.statusCode());
+        Assertions.assertEquals("", response.body().toString() );
     }
 }

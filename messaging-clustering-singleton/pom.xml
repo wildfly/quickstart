@@ -49,9 +49,8 @@
         <version.server>41.0.0.Final</version.server>
         <!-- the versions for BOMs, Packs and Plugins -->
         <version.bom.ee>${version.server}</version.bom.ee>
+        <version.bom.junit>6.1.3</version.bom.junit>
         <version.plugin.wildfly>6.0.1.Final</version.plugin.wildfly>
-        <!-- the versions for other Dependencies and Plugins -->
-        <version.junit-jupiter-engine>5.9.3</version.junit-jupiter-engine>
     </properties>
 
     <dependencyManagement>
@@ -65,9 +64,11 @@
                 <scope>import</scope>
             </dependency>
             <dependency>
-                <groupId>org.junit.jupiter</groupId>
-                <artifactId>junit-jupiter-engine</artifactId>
-                <version>${version.junit-jupiter-engine}</version>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${version.bom.junit}</version>
+                <type>pom</type>
+                <scope>import</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -102,7 +103,7 @@
         </dependency>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
 

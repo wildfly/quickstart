@@ -22,11 +22,11 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import javax.xml.namespace.QName;
 import jakarta.xml.ws.Service;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * @author rsearls@redhat.com
@@ -60,7 +60,7 @@ public class ClientIT {
 
     private EJB3RemoteInterface client;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws MalformedURLException {
         URL deploymentUrl = getHTTPEndpoint();
 
@@ -70,7 +70,7 @@ public class ClientIT {
         ClientIT.deploymentUrl = deploymentUrl;
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         QName serviceName = new QName("http://wsejb.quickstarts.jboss.org/", "EJB3BeanService");
         Service service = Service.create(deploymentUrl, serviceName);
