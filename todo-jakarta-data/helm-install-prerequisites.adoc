@@ -1,0 +1,19 @@
+ifndef::ProductRelease[]
+The Helm Chart for this quickstart contains all the information to build an image from the source code using S2I.
+It also deploys the PostGreSQL database to store the data.
+
+[source,options="nowrap"]
+----
+dependencies:
+    - name: wildfly
+      repository: http://docs.wildfly.org/wildfly-charts/
+      version: ...
+----
+
+So we need to update the dependencies of our Helm Chart.
+
+[source,options="nowrap",subs="+attributes"]
+----
+$ helm dependency update charts/
+----
+endif::[]

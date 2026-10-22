@@ -1,0 +1,16 @@
+echo Adding Undertow Filters for CORS
+# Access-Control-Allow-Origin
+/subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Allow-Origin":add()
+/subsystem=undertow/configuration=filter/response-header="Access-Control-Allow-Origin":add(header-name="Access-Control-Allow-Origin",header-value="${env.CORS_ORIGIN:*}")
+# Access-Control-Allow-Methods
+/subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Allow-Methods":add()
+/subsystem=undertow/configuration=filter/response-header="Access-Control-Allow-Methods":add(header-name="Access-Control-Allow-Methods",header-value="GET, POST, OPTION, PUT, DELETE, PATCH")
+# Access-Control-Allow-Headers
+/subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Allow-Headers":add()
+/subsystem=undertow/configuration=filter/response-header="Access-Control-Allow-Headers":add(header-name="Access-Control-Allow-Headers",header-value="accept, authorization, content-type, x-requested-with")
+# Access-Control-Allow-Credentials
+/subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Allow-Credentials":add()
+/subsystem=undertow/configuration=filter/response-header="Access-Control-Allow-Credentials":add(header-name="Access-Control-Allow-Credentials",header-value="true")
+# Access-Control-Max-Age
+/subsystem=undertow/server=default-server/host=default-host/filter-ref="Access-Control-Max-Age":add()
+/subsystem=undertow/configuration=filter/response-header="Access-Control-Max-Age":add(header-name="Access-Control-Max-Age",header-value="1")

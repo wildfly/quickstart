@@ -1,0 +1,282 @@
+include::../shared-doc/attributes.adoc[]
+
+= todo-jakata-data: quickstart for backend deployment on OpenShift
+:toc:               left
+:icons:             font
+:idprefix:
+:idseparator:       -
+:keywords:          openshift,galleon,helm
+:level:             Intermediate
+:technologies:      Jakarta Data, Jakarta REST, OpenShift, Galleon
+:openshift: true
+:archiveType: war
+:useHelmChartDir: true
+:helm-install-prerequisites-openshift: ../todo-backend/helm-install-prerequisites.adoc
+:helm-install-prerequisites-kubernetes: ../todo-backend/helm-install-prerequisites.adoc
+:helmSetWildFlyArgumentPrefix: wildfly.
+
+[abstract]
+The `todo-jakarta-data` quickstart demonstrates how to implement a backend that exposes a HTTP API with Jakarta REST
+to manage a list of ToDo which are persisted in a database with Jakarta Data.
+It is very similar to the `todo-backend` quickstart but uses Jakarta Data instead of Jakarta Persistence to handle
+interaction with the backend database.
+
+ifndef::ProductRelease[]
+This quickstart shows how to set up a local deployment of this backend as well as a deployment on OpenShift to connect
+to a PostgreSQL database also hosted on OpenShift.
+endif::[]
+ifdef::ProductRelease[]
+This quickstart shows how to deploy a {productName} application on OpenShift that connects
+to a PostgreSQL database also hosted on OpenShift.
+endif::[]
+
+
+== What is it?
+
+The `todo-jakarta-data` quickstart demonstrates how to implement a backend that exposes a HTTP API with `Jakarta REST`
+to manage a list of ToDo which are persisted in a database with `Jakarta Data`.
+
+* The backend exposes a HTTP API to manage a list of todos that complies with the specs defined at https://todobackend.com/specs/index.html[todobackend.com].
+* It requires a connection to a PostgreSQL database to persist the todos.
+ifndef::ProductRelease[]
+* It uses the Server Provisioning for local and cloud deployment
+endif::[]
+* It can be build with {productName} S2I images for cloud deployment
+ifndef::ProductRelease[]
+* It is deployed on OpenShift using the https://docs.wildfly.org/wildfly-charts/[Helm Chart for {productName}].
+endif::[]
+ifdef::ProductRelease[]
+* It is deployed on OpenShift using the https://jbossas.github.io/eap-charts//[Helm Chart for {productName}].
+endif::[]
+
+This quickstart is the same as the `todo-backend` quickstart, but uses `Jakarta Data` for its persistence layer,
+instead of `Jakarta Persistence`.
+To see the differences, compare this quickstart's `ToDoRepository` interface with the `ToDoDAO` interface
+and `ToDoDAOImpl` class in `todo-backend`.
+
+// Link to the quickstart source
+include::../shared-doc/view-the-source.adoc[leveloffset=+1]
+// System Requirements
+include::../shared-doc/system-requirements.adoc[leveloffset=+1]
+
+== Architecture
+
+=== Architecture with S2I
+
+This backend is built using {productName} S2I Builder and Runtime images. 
+
+ifndef::ProductRelease[]
+When the image is built, `org.wildfly.plugins:wildfly-maven-plugin` plugin provisions the {productName} application server and all the feature packs it needs for its features.
+The layers are defined in the `pom.xml` file in the `<configuration>` section of the `org.wildfly.plugins:wildfly-maven-plugin` plugin:
+
+[source,xml]
+----
+<layers>
+  <layer>cloud-server</layer>
+  <layer>jakarta-data</layer>
+  <layer>postgresql-datasource</layer>
+</layers>
+----
+endif::[]
+
+ifdef::ProductRelease[]
+When the image is built, `org.jboss.eap.plugins:eap-maven-plugin` plugin provisions the {productName} application server and all the feature packs it needs for its features.
+The layers are defined in the `pom.xml` file in the `<configuration>` section of the `org.jboss.eap.plugins:eap-maven-plugin` plugin:
+
+[source,xml]
+----
+<layers>
+  <layer>cloud-server</layer>
+  <layer>jakarta-data</layer>
+  <layer>postgresql-datasource</layer>
+</layers>
+----
+endif::[]
+
+The `cloud-server` layer provides everything needed to run the backend on OpenShift. This also includes access to
+Jakarta EE APIs such as CDI, Jakarta REST, etc, along with the Hibernate support used by Jakarta Data.
+The `jakarta-data` layer provides the Jakarta Data API.
+These two layers come from the {productName} feature pack provided in the
+{productName} S2I builder image.
+
+ifndef::ProductRelease[]
+The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is also provided by
+`org.wildfly:wildfly-datasources-galleon-pack` which is included in the WildFly S2I image.
+
+The Git repository for this feature pack is hosted at https://github.com/wildfly-extras/wildfly-datasources-galleon-pack.
+It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
+endif::[]
+
+ifdef::ProductRelease[]
+The `postgresql-datasource` layer provides a JDBC driver and DataSource to connect to a PostgreSQL database. It is also provided by
+the `org.jboss.eap:eap-datasources-galleon-pack` feature pack.
+
+The Git repository for this feature pack is hosted at https://github.com/jbossas/eap-datasources-galleon-pack.
+It provides JDBC drivers and datasources for different databases but for this quickstart, we will only need the `postgresql-datasource`.
+endif::[]
+
+=== Generation of the Jakarta Data Repository implementation
+
+A key feature of Jakarta Data is it does not require application developers to write detailed code to write from and write to the backend database.
+Developers just need declare their entities (using Jakarta Persistence annotations like `@Entity`) and then write an repository interface that describes the desired persistence operations, using the Jakarta Data annotations.
+It is then up to the Jakarta Data implementation to generate an implementation of that interface.
+
+WildFly's implementation of Jakarta Data, Hibernate Data Repositories, generates that implementation at application build time using an annotation processor run as part of compilation of the application.
+
+This is handled in the project `pom.xml` by configuring the `maven-compiler-plugin`:
+
+[source,xml]
+----
+<plugin>
+  <groupId>org.apache.maven.plugins</groupId>
+  <artifactId>maven-compiler-plugin</artifactId>
+  <configuration>
+    <annotationProcessorPaths>
+      <path>
+        <groupId>org.hibernate.orm</groupId>
+        <artifactId>hibernate-jpamodelgen</artifactId>
+        <version>${version.org.hibernate.jpamodelgen}</version>
+      </path>
+    </annotationProcessorPaths>
+  </configuration>
+</plugin>
+----
+
+=== Connection to the PostgreSQL database
+
+ifndef::ProductRelease[]
+As mentioned, the JDBC drivers and datasource configuration that the backend uses to connect to the PostgreSQL database
+is provided by the `org.wildfly:wildfly-datasources-galleon-pack` feature pack.
+endif::[]
+ifdef::ProductRelease[]
+As mentioned, the JDBC drivers and datasource configuration that the backend uses to connect to the PostgreSQL database
+is provided by the `org.jboss.eap:eap-datasources-galleon-pack` feature pack.
+endif::[]
+
+By default, it exposes a single datasource.
+In the backend, the name of this datasource is `ToDos` and is specified in the `persistence.xml` to configure Hibernate:
+
+[source,xml]
+----
+<persistence-unit name="ToDos">
+  <jta-data-source>java:jboss/datasources/ToDos</jta-data-source>
+</persistence-unit>
+----
+
+At runtime, we only need a few environment variables to establish the connection from {productName} to the external PostgreSQL database:
+
+* `POSTGRESQL_DATABASE` - the name of the database (that will be called `todos`)
+* `POSTGRESQL_SERVICE_HOST` - the host to connect to the database
+* `POSTGRESQL_SERVICE_PORT` - The port to connect to the database
+* `POSTGRESQL_USER` & `POSTGRESQL_PASSWORD` - the credentials to connect to the database
+* `POSTGRESQL_DATASOURCE` - The name of the datasource (as mentioned above, it will be `ToDos`)
+
+=== Filters for Cross-Origin Resource Sharing (CORS)
+
+The Web frontend for this quickstart uses JavaScript calls to query the backend's HTTP API.
+We must enable Cross-Origin Resource Sharing (CORS) filters in the `undertow` subsystem of {productName} to allow
+these HTTP requests to succeed.
+
+ifdef::ProductRelease[]
+==== Configuration with {productName} S2I
+
+As we use S2I to provision the server and build the application, we provide a CLI script that contains all the commands to create and configure the CORS filters in Undertow. This script is located in the `src/scripts/cors_filters.cli`.
+endif::[]
+
+This script is executed at build time and will provide the following HTTP headers to enabled CORS:
+
+* `Access-Control-Allow-Origin: *`
+* `Access-Control-Allow-Methods: GET, POST, OPTION, PUT, DELETE, PATCH`
+* `Access-Control-Allow-Headers: accept, authorization, content-type, x-requested-with`
+* `Access-Control-Allow-Credentials: true`
+* `Access-Control-Max-Age: 1`
+
+By default, the backend accepts requests from any origin (`*`). This is only simplicity. It is possible to restrict
+the allowed origin using the environment variable `CORS_ORIGIN` at runtime.
+
+== Run the Backend Locally
+
+=== Package the Backend
+
+The backend is packaged and deployed on a provisioned server:
+
+[source,options="nowrap"]
+----
+$ mvn clean package
+----
+
+=== Run a Local PostgreSQL Database
+
+Before running the backend locally, we need to have a local PostgreSQL database that we can connect to.
+We use the `postgresql` docker image to create one:
+
+[source,options="nowrap"]
+----
+$ docker run --name todo-backend-db -e POSTGRES_USER=todos -e POSTGRES_PASSWORD=mysecretpassword -p 5432:5432 postgres
+----
+
+This will create a database named `todos` that we can connect to on `localhost:5432` with the credentials `todos / mysecretpassword`.
+
+=== Run the Application
+
+With the PostgreSQL database running, we can start the backend by passing the required environment variables to connect to the database:
+
+[source,options="nowrap"]
+----
+$ ./target/server/bin/standalone.sh -Denv.POSTGRESQL_DATABASE=todos -Denv.POSTGRESQL_DATASOURCE=ToDos -Denv.POSTGRESQL_SERVICE_HOST=localhost -Denv.POSTGRESQL_SERVICE_PORT=5432 -Denv.POSTGRESQL_USER=todos -Denv.POSTGRESQL_PASSWORD=mysecretpassword
+----
+
+The backend is running, and we can use the HTTP API to manage a list of todos:
+
+[source,options="nowrap"]
+----
+# get a list of todos
+$ curl http://localhost:8080/todo-jakarta-data
+[]
+
+# create a todo with the title "This is my first todo item!"
+$ curl -X POST -H "Content-Type: application/json"  -d '{"title": "This is my first todo item!"}' http://localhost:8080
+{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}%
+
+# get a list of todos with the one that was just created
+$ curl http://localhost:8080/todo-jakarta-data
+[{"completed":false,"id":1,"order":0,"title":"This is my first todo item!","url":"https://localhost:8080/1"}]
+----
+
+Please note that the quickstart includes integration tests, which may be executed using the following command:
+
+[source,subs="attributes+",options="nowrap"]
+----
+$ mvn verify -Pintegration-testing
+----
+
+//===========================================================
+// Openshift - START
+== Run the Backend on OpenShift
+
+// OpenShift
+include::../shared-doc/build-and-run-the-quickstart-with-openshift.adoc[leveloffset=+1]
+include::../todo-backend/additional-readme-openshift.adoc[leveloffset=+1]
+// OpenShift - END
+//===========================================================
+
+//===========================================================
+// Kubernetes - START
+ifndef::ProductRelease,EAPXPRelease[]
+== Run the Backend on Kubernetes
+
+//Kubernetes
+include::../shared-doc/build-and-run-the-quickstart-with-kubernetes.adoc[leveloffset=+1]
+include::../todo-backend/additional-readme-kubernetes.adoc[leveloffset=+1]
+endif::[]
+// Kubernetes - END
+//===========================================================
+
+
+== Conclusion
+
+This quickstart shows how the datasource feature pack provided by {productName} simplifies the deployment
+of a {productName} Jakarta EE backend on OpenShift to connect to an external database and exposes an HTTP API.
+
+The use of a Server Provisioned deployment makes it seamless to move from a local deployment for development to a
+deployment on cloud platforms such as OpenShift and Kubernetes.
