@@ -15,7 +15,7 @@
  */
 package org.jboss.as.quickstarts.helloworld_mutual_ssl_secured;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -43,7 +43,7 @@ import org.apache.http.HttpResponse;
 
 
 import static org.jboss.as.quickstarts.helloworld_mutual_ssl_secured.KeystoreUtil.createTrustStore;
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 /**
  * The very basic runtime integration testing.

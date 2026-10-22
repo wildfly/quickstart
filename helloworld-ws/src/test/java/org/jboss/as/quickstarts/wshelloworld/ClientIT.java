@@ -16,7 +16,7 @@
  */
 package org.jboss.as.quickstarts.wshelloworld;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.net.MalformedURLException;
 import java.net.URI;
@@ -25,9 +25,9 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.Test;
 
 /**
  * Simple set of tests for the HelloWorld Web Service to demonstrate accessing the web service using a client
@@ -63,7 +63,7 @@ public class ClientIT {
 
     private HelloWorldService client;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws MalformedURLException {
         URL deploymentUrl = getHTTPEndpoint();
 
@@ -73,7 +73,7 @@ public class ClientIT {
         ClientIT.deploymentUrl = deploymentUrl;
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
          client = new Client(deploymentUrl);
     }

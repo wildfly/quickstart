@@ -27,8 +27,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
 import org.eclipse.microprofile.rest.client.RestClientBuilder;
-import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 import org.reactivestreams.Subscriber;
 import org.reactivestreams.Subscription;
 
@@ -95,9 +95,9 @@ public class ReactiveMessagingKafkaIT {
     }
 
     private void checkAsynchTask(ListSubscriber task, String... values) {
-        Assert.assertEquals(3, task.lines.size());
+        Assertions.assertEquals(3, task.lines.size());
         for (int i = 0; i < values.length; i++) {
-            Assert.assertTrue("Line " + i + ": " + task.lines.get(i), task.lines.get(i).contains(values[i]));
+            Assertions.assertTrue(task.lines.get(i).contains(values[i]), "Line " + i + ": " + task.lines.get(i));
         }
     }
 
@@ -105,7 +105,7 @@ public class ReactiveMessagingKafkaIT {
         String s;
         List<String> lines = new ArrayList<>();
         try {
-            Assert.assertEquals(200, response.getStatusLine().getStatusCode());
+            Assertions.assertEquals(200, response.getStatusLine().getStatusCode());
             try (BufferedReader reader = new BufferedReader(new InputStreamReader(response.getEntity().getContent()))) {
                 String line = reader.readLine();
                 while (line != null) {
@@ -113,7 +113,7 @@ public class ReactiveMessagingKafkaIT {
                     line = reader.readLine();
                 }
             }
-            Assert.assertTrue("Expected >= 3 lines in:\n" + lines, lines.size() >= 3);
+            Assertions.assertTrue(lines.size() >= 3, "Expected >= 3 lines in:\n" + lines);
         } catch (Throwable throwable) {
             if (fail) {
                 throw throwable;
@@ -121,12 +121,12 @@ public class ReactiveMessagingKafkaIT {
             return false;
         }
 
-        Assert.assertNotEquals("Expected to find 'Hello' on line 0 of:\n" + lines, -1, lines.get(0).indexOf("Hello"));
-        Assert.assertNotEquals("Expected to find 'Kafka' on line 1 of:\n" + lines, -1, lines.get(1).indexOf("Kafka"));
+        Assertions.assertNotEquals(-1, lines.get(0).indexOf("Hello"), "Expected to find 'Hello' on line 0 of:\n" + lines);
+        Assertions.assertNotEquals(-1, lines.get(1).indexOf("Kafka"), "Expected to find 'Kafka' on line 1 of:\n" + lines);
         for (int i = 2; i < lines.size(); i++) {
-            Assert.assertNotEquals(
-                    "Expected to find 'Hello' or 'Kafka' on line " + i +
-                            " of:\n" + lines, -2, lines.get(i).indexOf("Hello") + lines.get(i).indexOf("Kafka"));
+            Assertions.assertNotEquals(
+                    -2, lines.get(i).indexOf("Hello") + lines.get(i).indexOf("Kafka"),
+                    "Expected to find 'Hello' or 'Kafka' on line " + i + " of:\n" + lines);
         }
         return true;
     }

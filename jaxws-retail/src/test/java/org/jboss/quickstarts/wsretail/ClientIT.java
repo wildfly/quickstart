@@ -11,11 +11,11 @@ import org.jboss.quickstarts.ws.jaxws.samples.retail.profile.Customer;
 import org.jboss.quickstarts.ws.jaxws.samples.retail.profile.DiscountRequest;
 import org.jboss.quickstarts.ws.jaxws.samples.retail.profile.DiscountResponse;
 import org.jboss.quickstarts.ws.jaxws.samples.retail.profile.ProfileMgmt;
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.BeforeClass;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class ClientIT {
     /**
@@ -46,14 +46,14 @@ public class ClientIT {
 
     private ProfileMgmt client;
 
-    @BeforeClass
+    @BeforeAll
     public static void beforeClass() throws MalformedURLException {
         URL deploymentUrl = getHTTPEndpoint();
         // Set the deployment url
         ClientIT.deploymentUrl = deploymentUrl;
     }
 
-    @Before
+    @BeforeEach
     public void setup() {
         QName serviceName = new QName("http://org.jboss.ws/samples/retail/profile", "ProfileMgmtService");
         Service service = Service.create(deploymentUrl, serviceName);
