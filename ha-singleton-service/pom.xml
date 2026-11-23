@@ -83,6 +83,11 @@
             <artifactId>wildfly-clustering-singleton-api</artifactId>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>org.wildfly.clustering</groupId>
+            <artifactId>wildfly-clustering-server-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
 
         <!-- Test dependencies -->
         <dependency>
@@ -112,7 +117,7 @@
                     <archive>
                         <addMavenDescriptor>false</addMavenDescriptor>
                         <manifestEntries>
-                            <Dependencies>org.jboss.msc, org.wildfly.clustering.singleton</Dependencies>
+                            <Dependencies>org.jboss.msc, org.wildfly.clustering.server.api, org.wildfly.clustering.singleton.api</Dependencies>
                         </manifestEntries>
                     </archive>
                 </configuration>
