@@ -17,6 +17,7 @@
 
 package org.jboss.as.quickstarts.ha.singleton.service;
 
+import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -26,7 +27,7 @@ import org.jboss.logging.Logger;
 import org.jboss.msc.Service;
 import org.jboss.msc.service.StartContext;
 import org.jboss.msc.service.StopContext;
-import org.wildfly.clustering.group.Node;
+import org.wildfly.clustering.server.GroupMember;
 import org.wildfly.clustering.singleton.Singleton;
 
 /**
@@ -36,7 +37,6 @@ import org.wildfly.clustering.singleton.Singleton;
  *
  * @author Radoslav Husar
  */
-@SuppressWarnings("removal")
 class QueryingService implements Service {
 
     private final Logger log = Logger.getLogger(this.getClass());
@@ -51,19 +51,17 @@ class QueryingService implements Service {
 
     @Override
     public void start(StartContext context) {
-        Singleton singleton = this.singleton.get();
-
         this.executor = Executors.newSingleThreadScheduledExecutor();
         this.executor.scheduleAtFixedRate(() -> {
-            Node primary = singleton.getPrimaryProvider();
-            if (primary != null) {
-                this.log.infof("Singleton service running on %s.", primary);
+            Optional<GroupMember> primary = Optional.ofNullable(this.singleton.get()).flatMap(singleton -> singleton.getSingletonState().getPrimaryProvider());
+            if (primary.isPresent()) {
+                this.log.infof("Singleton service running on %s.", primary.get().getName());
             } else {
                 this.log.infof("Singleton service not running anywhere.");
             }
         }, 5, 5, TimeUnit.SECONDS);
 
-        this.log.info("Querying service started");
+        this.log.info("Querying service started.");
     }
 
     @Override

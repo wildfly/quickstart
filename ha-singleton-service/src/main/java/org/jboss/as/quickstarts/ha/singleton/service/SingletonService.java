@@ -23,7 +23,8 @@ import org.jboss.logging.Logger;
 import org.jboss.msc.Service;
 import org.jboss.msc.service.StartContext;
 import org.jboss.msc.service.StopContext;
-import org.wildfly.clustering.group.Group;
+import org.wildfly.clustering.server.Group;
+import org.wildfly.clustering.server.GroupMember;
 
 /**
  * Implementation of the singleton service. The container will ensure that at most one instance of this service is running at
@@ -31,25 +32,24 @@ import org.wildfly.clustering.group.Group;
  *
  * @author Radoslav Husar
  */
-@SuppressWarnings("removal")
 class SingletonService implements Service {
 
     private final Logger log = Logger.getLogger(this.getClass());
 
-    private final Supplier<Group> group;
+    private final Supplier<Group<GroupMember>> group;
 
-    SingletonService(Supplier<Group> group) {
+    SingletonService(Supplier<Group<GroupMember>> group) {
         this.group = group;
     }
 
     @Override
     public void start(StartContext context) {
-        this.log.infof("Singleton service started on %s.", this.group.get().getLocalMember());
+        this.log.infof("Singleton service started on %s.", this.group.get().getLocalMember().getName());
     }
 
     @Override
     public void stop(StopContext context) {
-        this.log.infof("Singleton service stopped on %s.", this.group.get().getLocalMember());
+        this.log.infof("Singleton service stopped on %s.", this.group.get().getLocalMember().getName());
     }
 
 }
