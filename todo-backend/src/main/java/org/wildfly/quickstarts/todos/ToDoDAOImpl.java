@@ -59,7 +59,7 @@ public class ToDoDAOImpl implements ToDoDAO {
     }
 
     @Override
-    public Optional<ToDo> update(Long id, ToDo newTodo) {
+    public Optional<ToDo> patch(Long id, ToDo newTodo) {
         Optional<ToDo> optional = findById(id);
         if (optional.isPresent()) {
             optional.get().update(newTodo);

@@ -37,5 +37,16 @@ public interface ToDoDAO {
 
     void insert(ToDo todo);
 
-    Optional<ToDo> update(Long id, ToDo todo);
+    /**
+     * Patch the {@code ToDo} with the given id, if one exists. "Patch" here is in the
+     * general sense of the HTTP PATCH method, where parts of an existing resource are modified
+     * based on a provided entity, but others are left as is. Here if the provided {@code patch}
+     * {@code ToDo} has a non-null value for a field, this object's field is updated to match,
+     * but for null fields this object's current value is retained.
+     *
+     * @param id the id of the ToDo to update. Cannot be {@code null}
+     * @param patch a ToDo to persist if one with the id exists. Cannot be {@code null}
+     * @return an {@link Optional} containing the updated ToDo if a ToDo with {@code id} existed
+     */
+    Optional<ToDo> patch(Long id, ToDo patch);
 }
