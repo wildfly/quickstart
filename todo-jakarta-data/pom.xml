@@ -162,6 +162,12 @@
                                 <add-ons>
                                     <add-on>postgresql</add-on>
                                 </add-ons>
+                                <!-- TODO This is a workaround for WFLY-22518, which prevents normal
+                                     discovery of the jakarta-data layer. Remove this once this quickstart
+                                     uses a WildFly release with that fixed. -->
+                                <layersForJndi>
+                                    <layer>jakarta-data</layer>
+                                </layersForJndi>
                             </discover-provisioning-info>
                             <packaging-scripts>
                                 <packaging-script>
@@ -195,6 +201,9 @@
                             <discover-provisioning-info>
                                 <version>${version.server}</version>
                                 <context>cloud</context>
+                                <layersForJndi>
+                                    <layer>jakarta-data</layer>
+                                </layersForJndi>
                                 <add-ons>
                                     <add-on>postgresql</add-on>
                                 </add-ons>
