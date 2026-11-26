@@ -110,11 +110,15 @@ public class ToDo {
         this.url = url;
     }
 
-    public void update(ToDo newTodo) {
-        this.title = ofNullable(newTodo.title).orElse(title);
-        this.completed = ofNullable(newTodo.completed).orElse(completed);
-        this.order = ofNullable(newTodo.order).orElse(order);
-        this.url = ofNullable(newTodo.url).orElse(url);
+    /**
+     * Update the fields of this object with the values of any non-null fields in the given {@code patch}.
+     * @param patch the source of updated values
+     */
+    public void update(ToDo patch) {
+        this.title = ofNullable(patch.title).orElse(title);
+        this.completed = ofNullable(patch.completed).orElse(completed);
+        this.order = ofNullable(patch.order).orElse(order);
+        this.url = ofNullable(patch.url).orElse(url);
     }
 
     @Override
