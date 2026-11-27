@@ -1,0 +1,63 @@
+= mcp-server: quickstart for MCP server
+:toc:               left
+:icons:             font
+:idprefix:
+:idseparator:       -
+:keywords:          mcp
+:level:             Intermediate
+:technologies:      Jakarta REST, MCP
+:archiveType: war
+
+[abstract]
+The `mcp-server` quickstart demonstrates how to implement MCP server resources with WildFly.
+
+== Build the Application
+
+[source,shell]
+----
+mvn clean package
+----
+
+== Run WildFly
+
+[source,shell]
+----
+./target/server/bin/standalone.sh --stability=experimental
+----
+
+== Connect with the MCP introspector
+
+You can use the MCP inspector to test your tools
+
+[source,shell]
+----
+npx @modelcontextprotocol/inspector
+----
+
+Once you are on the http://127.0.0.1:6274[MPC inspector UI], you can connect to your WildFly server with the Streamable HTTP transport type using the parameters:
+
+* Transport Type: **Streamable HTTP**
+* URL: **http://localhost:8080/mcp-server/stream**
+
+Alternatively, you can connect with the Server-Sent Events (SSE) transport type using the parameters:
+
+* Transport Type: **SSE**
+* URL: **http://localhost:8080/mcp-server/sse**
+
+You should see all those tools.
+
+== Connect with Claude Code
+
+If you are using Claude Code, you can add this MCP server with:
+
+[source,shell]
+----
+claude mcp add --scope project --transport http wildfly-quickstart http://localhost:8080/mcp-server/stream
+----
+
+You can then ask `claude` questions such as:
+
+* `What is the weather forecast for tomorrow at San Antonio?`
+* `Are there any weather alerts for Denver?`
+* `What is the length of the string "abcdef"?`
+
